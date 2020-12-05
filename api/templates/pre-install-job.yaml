@@ -1,0 +1,148 @@
+# Copied from & Modified: https://github.com/helm/helm/blob/master/docs/examples/nginx/templates/post-install-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "api.fullname" . }}-pre-install-artisan-setup
+  labels:
+    # The "app.kubernetes.io/managed-by" label is used to track which tool deployed a given chart.
+    # It is useful for admins who want to see what releases a particular tool
+    # is responsible for.
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    # The "app.kubernetes.io/instance" convention makes it easy to tie a release to all of the
+    # Kubernetes resources that were created as part of that release.
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    # This makes it easy to audit chart usage.
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/name: {{ template "api.name" . }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    # Docs: https://github.com/helm/helm/blob/master/docs/charts_hooks.md
+    "helm.sh/hook": pre-install
+spec:
+  template:
+    metadata:
+      name: {{ template "api.fullname" . }}
+      labels:
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ template "api.name" . }}
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: pre-install-job
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag.preinstall }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # All we're going to do is sleep for a while, then exit.
+          # TODO this could actually make the db user we need and also have the correct permissions?
+          command: ["/bin/sh"]
+          # --force is needed for applying migrations while APP_ENV is production
+          args: ["-c", "php artisan migrate:install; php artisan migrate --force; php artisan passport:client --personal --no-interaction; php artisan passport:client --password --no-interaction"]
+          # TODO the env vars are mostly copied from the deployment, is there a way to reuse?
+          env:
+          - name: CONTAINER_ROLE
+            value: app
+          - name: APP_NAME
+            value: {{ .Values.app.name | quote }}
+          - name: APP_ENV
+            value: {{ .Values.app.env | quote }}
+            # TODO from secret? optionaly random generation?
+          - name: APP_KEY
+            value: {{ .Values.app.key | quote }}
+          - name: APP_DEBUG
+            value: {{ .Values.app.debug | quote }}
+          - name: APP_URL
+            value: {{ .Values.app.url | quote }}
+          - name: APP_TIMEZONE
+            value: {{ .Values.app.timezone | quote }}
+
+          - name: REDIS_PORT
+            value: {{ .Values.app.redis.port | quote }}
+          - name: REDIS_PASSWORD
+            value: {{ .Values.app.redis.password | quote }}
+          - name: REDIS_DB
+            value: {{ .Values.app.redis.db | quote }}
+          - name: REDIS_CACHE_DB
+            value: {{ .Values.app.redis.cachedb | quote }}
+          - name: REDIS_PREFIX
+            value: {{ .Values.app.redis.prefix | quote }}
+
+          - name: MAIL_DRIVER
+            value: {{ .Values.app.mail.driver | quote }}
+          - name: MAILGUN_DOMAIN
+            value: {{ .Values.app.mail.mailgundomain | quote }}
+          - name: MAILGUN_SECRET
+            value: {{ .Values.app.mail.mailgunsecret | quote }}
+          - name: MAIL_FROM_ADDRESS
+            value: {{ .Values.app.mail.fromaddress | quote }}
+          - name: MAIL_FROM_NAME
+            value: {{ .Values.app.mail.fromname | quote }}
+
+          - name: INVISIBLE_RECAPTCHA_SITEKEY
+            value: {{ .Values.app.recaptcha.sitekey | quote }}
+          - name: INVISIBLE_RECAPTCHA_SECRETKEY
+            value: {{ .Values.app.recaptcha.secret | quote }}
+          - name: INVISIBLE_RECAPTCHA_BADGEHIDE
+            value: {{ .Values.app.recaptcha.badgehide | quote }}
+
+          - name: ROUTES_LOAD_WEB
+            value: "1"
+          - name: ROUTES_LOAD_BACKEND
+            value: "1"
+
+          - name: LOG_CHANNEL
+            value: stderr
+          - name: STACKDRIVER_ENABLED
+            value: {{ .Values.app.stackdriver.enabled | quote }}
+          - name: STACKDRIVER_PROJECT_ID
+            value: {{ .Values.app.gce.projectId | quote }}
+          - name: STACKDRIVER_LOGGING_ENABLED
+            value: {{ .Values.app.stackdriver.loggingEnabled | quote }}
+          - name: STACKDRIVER_TRACING_ENABLED
+            value: {{ .Values.app.stackdriver.tracingEnabled | quote }}
+          - name: STACKDRIVER_ERROR_REPORTING_ENABLED
+            value: {{ .Values.app.stackdriver.errorReportingEnabled | quote }}
+          - name: STACKDRIVER_KEY_FILE_PATH
+            value: /var/run/secret/cloud.google.com/key.json
+          - name: STACKDRIVER_ERROR_REPORTING_BATCH_ENABLED
+            value: "false"
+          - name: STACKDRIVER_LOGGING_BATCH_ENABLED
+            value: "false"
+
+          - name: CACHE_DRIVER
+            value: {{ .Values.app.cacheDriver | quote }}
+          - name: QUEUE_CONNECTION
+            value: {{ .Values.app.queueConnection | quote }}
+            # TODO from secret? optionaly random generation?
+          - name: JWT_SECRET
+            value: {{ .Values.app.jwtSecret | quote }}
+          - name: DB_CONNECTION
+            value: {{ .Values.app.db.connection | quote }}
+            # TODO from service discovery or something?
+          - name: DB_HOST_READ
+            value: {{ .Values.app.db.readHost | quote }}
+          - name: DB_HOST_WRITE
+            value: {{ .Values.app.db.writeHost | quote }}
+          - name: DB_PORT
+            value: {{ .Values.app.db.port | quote }}
+          - name: DB_DATABASE
+            value: {{ .Values.app.db.name | quote }}
+          - name: DB_USERNAME
+            value: {{ .Values.app.db.user | quote }}
+          - name: DB_PASSWORD
+            {{- if .Values.app.db.password }}
+            value: {{ .Values.app.db.password | quote }}
+            {{- end }}
+            {{- if .Values.app.db.passwordSecretName }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.app.db.passwordSecretName | quote }}
+                key: {{ .Values.app.db.passwordSecretKey | quote }}
+            {{- end }}
+
+          volumeMounts:
+            - name: "service-account-wbstack-api"
+              mountPath: "/var/run/secret/cloud.google.com"
+      volumes:
+        - name: "service-account-wbstack-api"
+          secret:
+            secretName: {{ .Values.app.gce.serviceAccountSecret | quote }}
