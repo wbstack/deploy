@@ -1,0 +1,83 @@
+# This Job can be used to create the initial sql users and tables needed by the
+# various initial services.
+# Really this should only be run once, but also it shouldnt break anything if run
+# multiple times..
+# init-sql-secrets.yaml shouldbe run before this Job, otherwise the secrets will
+# not exist..
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-sql
+  namespace: default
+  labels:
+    app.kubernetes.io/managed-by: ManualGit
+spec:
+  template:
+    spec:
+      volumes:
+      - name: tmp-storage
+        emptyDir: {}
+      containers:
+      - name: init-sql
+        image: docker.io/bitnami/mariadb:10.2.14
+        volumeMounts:
+        - name: tmp-storage
+          mountPath: /data/tmp
+        env:
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-mariadb
+              key: mariadb-root-password
+        - name: SQL_PASSWORD_API
+          valueFrom:
+            secretKeyRef:
+              name: sql-apiuser
+              key: password
+        - name: SQL_PASSWORD_MEDIAWIKI
+          valueFrom:
+            secretKeyRef:
+              name: sql-mediawiki-db-manager
+              key: password
+        command: ["bash"]
+        args:
+          - "-c"
+          - |
+
+            set -ex
+            # TODO maybe dont make all of this end up in container logs
+
+            echo '[client]' >> /data/tmp/conf.txt
+            echo 'host=sql-mariadb.default.svc.cluster.local' >> /data/tmp/conf.txt
+            echo 'user=root' >> /data/tmp/conf.txt
+            echo "password=$SQL_PASSWORD" >> /data/tmp/conf.txt
+
+            # API
+            # TODO tighten up the grants for the api user
+            echo "CREATE USER IF NOT EXISTS 'apiuser'@'%' IDENTIFIED BY '$SQL_PASSWORD_API';" >> /data/tmp/cmds.txt
+            echo "ALTER USER 'apiuser'@'%' IDENTIFIED BY '$SQL_PASSWORD_API';" >> /data/tmp/cmds.txt
+            echo "CREATE DATABASE IF NOT EXISTS apidb;" >> /data/tmp/cmds.txt
+            echo "GRANT ALL ON apidb.* TO 'apiuser'@'%';" >> /data/tmp/cmds.txt
+            echo "GRANT GRANT OPTION ON apidb.* TO 'apiuser'@'%';" >> /data/tmp/cmds.txt
+
+            # Mediawiki
+            echo "CREATE USER IF NOT EXISTS 'mediawiki-db-manager'@'%' IDENTIFIED BY '$SQL_PASSWORD_MEDIAWIKI';" >> /data/tmp/cmds.txt
+            echo "ALTER USER 'mediawiki-db-manager'@'%' IDENTIFIED BY '$SQL_PASSWORD_MEDIAWIKI';" >> /data/tmp/cmds.txt
+            echo "CREATE DATABASE IF NOT EXISTS mediawiki;" >> /data/tmp/cmds.txt
+            # Needed in order to create new DBs and users and perform updates
+            echo "GRANT ALL ON \`mwdb_%\`.* TO 'mediawiki-db-manager'@'%';" >> /data/tmp/cmds.txt
+            echo "GRANT ALL ON \`mediawiki\`.* TO 'mediawiki-db-manager'@'%';" >> /data/tmp/cmds.txt
+            # Needed in order to GRANT new users access to their own dbs
+            echo "GRANT GRANT OPTION ON \`mwdb_%\`.* TO 'mediawiki-db-manager'@'%';" >> /data/tmp/cmds.txt
+            echo "GRANT GRANT OPTION ON \`mediawiki\`.* TO 'mediawiki-db-manager'@'%';" >> /data/tmp/cmds.txt
+            # Needed in order to create new users
+            echo "GRANT CREATE USER ON *.* TO 'mediawiki-db-manager'@'%';" >> /data/tmp/cmds.txt
+            # In order to see and grant slave status access
+            echo "GRANT REPLICATION CLIENT ON *.* TO 'mediawiki-db-manager'@'%' WITH GRANT OPTION;" >> /data/tmp/cmds.txt
+
+            # Flush privs
+            echo "FLUSH PRIVILEGES;" >> /data/tmp/cmds.txt
+
+            mysql --defaults-file=/data/tmp/conf.txt < /data/tmp/cmds.txt
+      restartPolicy: Never
+  backoffLimit: 3

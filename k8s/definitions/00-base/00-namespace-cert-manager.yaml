@@ -1,0 +1,8 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: cert-manager
+  labels:
+    name: cert-manager
+    app.kubernetes.io/managed-by: ManualGit
+    cert-manager.io/disable-validation: "true"
