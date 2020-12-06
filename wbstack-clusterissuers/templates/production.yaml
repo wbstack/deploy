@@ -1,0 +1,39 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: {{ .Values.email }}
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+      # The solver defined earlier in the list will be used first according to docs:
+      # https://cert-manager.io/docs/release-notes/release-notes-0.9/#dns-zones-support-for-acme-challenge-solver-selector
+      - selector: {}
+        http01:
+          ingress:
+            class: nginx
+      # DNS Docs: https://docs.cert-manager.io/en/release-0.11/tasks/issuers/setup-acme/dns01/index.html
+      - selector:
+          dnsNames:
+            - wbstack.com
+            - '*.wbstack.com'
+            - opencura.com
+            - '*.opencura.com'
+            - '*.wiki.opencura.com'
+            - '*.wikibase.opencura.com'
+            - '*.test.opencura.com'
+        dns01:
+          clouddns:
+            # The project in which to update the DNS zone
+            project: wbstack
+            # A secretKeyRef to a google cloud json service account
+            serviceAccountSecretRef:
+              name: clouddns-dns01-solver-svc-acct
+              key: key.json
