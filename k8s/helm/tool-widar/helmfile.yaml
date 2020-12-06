@@ -1,0 +1,15 @@
+repositories:
+  - name: wbstack-charts-widar
+    url: git+https://github.com/wbstack/charts/@tool-widar?ref=main
+
+releases:
+- name: tool-widar
+  namespace: default
+  chart: wbstack-charts-widar/tool-widar
+  values:
+    - "values.yaml.gotmpl"
+
+environments:
+  default:
+    values:
+      - ./../../../../private/private/helm/default.yaml

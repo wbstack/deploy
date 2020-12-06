@@ -1,0 +1,15 @@
+repositories:
+  - name: wbstack-charts-mediawiki
+    url: git+https://github.com/wbstack/charts/@mediawiki?ref=main
+
+releases:
+- name: mediawiki-135
+  namespace: default
+  chart: wbstack-charts-mediawiki/mediawiki
+  values:
+  - "values.yaml.gotmpl"
+
+environments:
+  default:
+    values:
+      - ./../../../../private/private/helm/default.yaml

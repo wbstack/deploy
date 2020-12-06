@@ -1,0 +1,117 @@
+redisPort: 6379
+cluster:
+  enabled: true
+  slaveCount: 1
+sentinel:
+  enabled: false
+usePassword: true
+password: {{ .Values.services.redis.password }}
+configmap: |
+  # Enable AOF https://redis.io/topics/persistence#append-only-file
+  appendonly yes
+  # Disable RDB persistence, AOF persistence already enabled.
+  save ""
+  # Control memory usage
+  maxmemory 50mb
+  maxmemory-policy volatile-lru
+  # Auto AOF file rewriting
+  auto-aof-rewrite-percentage 100
+  auto-aof-rewrite-min-size 60mb
+master:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 62Mi
+    # Internal limit is 90MB, this for now just stops runaway redis..
+    limits:
+      cpu: 50m
+      memory: 90Mi
+  ## Enable persistence using Persistent Volume Claims
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    enabled: true
+    ## The path the volume will be mounted at, useful when using different
+    ## Redis images.
+    path: /data
+    ## The subdirectory of the volume to mount to, useful in dev environments
+    ## and one PV for multiple services.
+    subPath: ""
+    ## redis data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # storageClass: "-"
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: "release"
+                  operator: In
+                  values:
+                    - redis
+            topologyKey: "kubernetes.io/hostname"
+
+
+slave:
+  resources:
+    requests:
+      cpu: 10m
+      # 60Mi based on usage seen on 21 December 2019 (after memory limits in place)
+      memory: 60Mi
+    # Internal limit is 90MB, this for now just stops runaway redis..
+    limits:
+      cpu: 50m
+      memory: 90Mi
+  ## Enable persistence using Persistent Volume Claims
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    enabled: true
+    ## The path the volume will be mounted at, useful when using different
+    ## Redis images.
+    path: /data
+    ## The subdirectory of the volume to mount to, useful in dev environments
+    ## and one PV for multiple services.
+    subPath: ""
+    ## redis data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # storageClass: "-"
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: "release"
+                  operator: In
+                  values:
+                    - redis
+            topologyKey: "kubernetes.io/hostname"
+
+# Recommended for production
+# networkPolicy:
+#   enabled: true
+# metrics:
+#   enabled: true
+#   resources:
+#     requests:
+#       cpu: 0m

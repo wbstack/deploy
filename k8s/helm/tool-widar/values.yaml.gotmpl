@@ -1,0 +1,18 @@
+replicaCount: 1
+
+platform:
+  mediawikiBackendHost: mediawiki-134-app-backend.default.svc.cluster.local
+php:
+  sessionSaveHandler: redis
+  sessionSavePath: "tcp://{{ .Values.services.redis.writeHost }}:{{ .Values.services.redis.port }}?database={{ .Values.services.redis.databases.toolWidar }}&auth={{ .Values.services.redis.password }}&prefix=session_widar_"
+image:
+  repository: ghcr.io/wbstack/widar
+  tag: "1.1"
+  pullPolicy: Always
+resources:
+  requests:
+    cpu: 1m
+    memory: 18Mi
+  limits:
+    cpu: 30m
+    memory: 50Mi

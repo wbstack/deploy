@@ -1,0 +1,19 @@
+replicaCount: 1
+
+platform:
+  mediawikiBackendHost: mediawiki-134-app-backend.default.svc.cluster.local
+php:
+  sessionSaveHandler: redis
+  sessionSavePath: "tcp://{{ .Values.services.redis.writeHost }}:{{ .Values.services.redis.port }}?database={{ .Values.services.redis.databases.toolQuickstatements }}&auth={{ .Values.services.redis.password }}&prefix=session_quickstatements_"
+
+image:
+  repository: ghcr.io/wbstack/quickstatements
+  tag: "1.2"
+  pullPolicy: Always
+resources:
+  requests:
+    cpu: 1m
+    memory: 40Mi
+  limits:
+    cpu: 30m
+    memory: 100Mi

@@ -1,0 +1,51 @@
+serverBlock: |-
+{{ readFile "nginx.conf" | indent 2 }}
+
+replicaCount: 2
+
+resources:
+  limits:
+    cpu: 40m
+    memory: 20Mi
+  requests:
+     cpu: 5m
+     memory: 8Mi
+
+livenessProbe:
+  httpGet:
+    path: /kube-probe
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 6
+readinessProbe:
+  httpGet:
+    path: /kube-probe
+    port: http
+  initialDelaySeconds: 5
+  timeoutSeconds: 3
+  periodSeconds: 5
+
+service:
+  type: NodePort
+  port: 8080
+
+ingress:
+  enabled: false
+metrics:
+  enabled: false
+cloneStaticSiteFromGit:
+  enabled: false
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "app.kubernetes.io/instance"
+                operator: In
+                values:
+                  - platform-nginx
+          topologyKey: "kubernetes.io/hostname"

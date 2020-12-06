@@ -1,0 +1,60 @@
+replicaCount:
+  backend: 1
+  web: 0
+  webapi: 0
+  alpha: 0
+image:
+  repository: gcr.io/wbstack/mediawiki
+  tag:
+    web: "1.34-7.3-b0.1-c0.1-e0.5"
+    webapi: "1.34-7.3-b0.1-c0.1-e0.5"
+    backend: "1.34-7.3-b0.1-c0.1-e0.5"
+    alpha: "1.35-7.3-b0.2-c0.1-e0.5"
+  pullPolicy: Always
+mw:
+  db:
+    master: sql-mariadb.default.svc.cluster.local
+    replica: sql-mariadb-slave.default.svc.cluster.local
+  redis:
+    # TODO fixme, no port injected into deployment...
+    # TODO fixme, no "database" ID injected into mediawiki
+    readServer: {{ .Values.services.redis.readHost }}
+    writeServer: {{ .Values.services.redis.writeHost }}
+    password: {{ .Values.services.redis.password }}
+  mailgun:
+    apikey: {{ .Values.external.mailgun.secret }}
+    domain: {{ .Values.external.mailgun.domain }}
+  recaptcha:
+    sitekey: {{ .Values.external.recaptcha2.sitekey }}
+    secretkey: {{ .Values.external.recaptcha2.secret }}
+  platform:
+    apiBackendHost: api-app-backend.default.svc.cluster.local
+resources:
+  web:
+    requests:
+      cpu: 150m
+      memory: 350Mi
+    limits:
+      cpu: 400m
+      memory: 750Mi
+  webapi:
+    requests:
+      cpu: 150m
+      memory: 250Mi
+    limits:
+      cpu: 500m
+      memory: 600Mi
+  alpha:
+    requests:
+      cpu: 50m
+      memory: 40Mi
+    limits:
+      cpu: 500m
+      memory: 600Mi
+  backend:
+    requests:
+      cpu: 10m
+      memory: 68Mi
+    limits:
+      cpu: 50m
+      memory: 250Mi

@@ -1,0 +1,16 @@
+repositories:
+  - name: cetic
+    url: https://cetic.github.io/helm-charts
+
+releases:
+  - name: adminer
+    namespace: default
+    chart: cetic/adminer
+    version: v0.1.3
+    values:
+      - "values.yaml.gotmpl"
+
+environments:
+  default:
+    values:
+      - ./../../../../private/private/helm/default.yaml

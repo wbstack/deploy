@@ -1,0 +1,17 @@
+controller:
+  service:
+    loadBalancerIP: 34.73.9.97
+    externalTrafficPolicy: Local
+  resources:
+    #          limits:
+    #            cpu: 100m
+    #            memory: 64Mi
+    requests:
+      cpu: 0.100
+      memory: 150Mi
+#      autoscaling:
+#        enabled: false
+#        minReplicas: 1
+#        maxReplicas: 2
+#        targetCPUUtilizationPercentage: 50
+#        targetMemoryUtilizationPercentage: 50

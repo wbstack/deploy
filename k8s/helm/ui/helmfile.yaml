@@ -1,0 +1,10 @@
+repositories:
+  - name: wbstack-charts-ui
+    url: git+https://github.com/wbstack/charts/@ui?ref=main
+
+releases:
+- name: ui
+  namespace: default
+  chart: wbstack-charts-ui/ui
+  values:
+  - "values.yaml"

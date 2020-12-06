@@ -1,0 +1,18 @@
+repositories:
+#  - name: bitnami
+#    url: https://charts.bitnami.com/bitnami
+  - name: wbstack-bitnami-mariadb
+    url: git+https://github.com/wbstack/bitnami-charts/@bitnami/mariadb?ref=7.3.16-mariadb-ready-check-seconds
+releases:
+- name: sql
+  namespace: default
+# Temporary custom chart addshore/bitnami-charts(7.3.16-mariadb-ready-check-seconds)
+  chart: wbstack-bitnami-mariadb/mariadb
+#  version: 7.3.16
+  values:
+  - "values.yaml.gotmpl"
+
+environments:
+  default:
+    values:
+      - ./../../../../private/private/helm/default.yaml

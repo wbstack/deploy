@@ -1,0 +1,125 @@
+image:
+  repository: ghcr.io/wbstack/api
+  tag:
+    preinstall: "6x-1.0"
+    backend: "6x-1.0"
+    web: "6x-1.0"
+    queue: "6x-1.0"
+    scheduler: "6x-1.0"
+  pullPolicy: Always
+replicaCount:
+  web: 1
+  backend: 1
+  scheduler: 1
+  queue: 1
+platform:
+  backendMwHost: mediawiki-135-app-backend.default.svc.cluster.local
+# This mw db connection is only used by the queue..
+queue:
+  mw:
+    db:
+      readHost: sql-mariadb-slave.default.svc.cluster.local
+      writeHost: sql-mariadb.default.svc.cluster.local
+      # database: someDbName
+      username: mediawiki-db-manager
+      passwordSecretName: sql-mediawiki-db-manager
+      passwordSecretKey: password
+resources:
+  # The backed is a platform critical element, so make sure it is allowed to be a bit silly...
+  backend:
+    requests:
+      cpu: 250m
+      memory: 350Mi
+    limits:
+      memory: 700Mi
+      cpu: 500m
+  web:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      memory: 256Mi
+      cpu: 250m
+  queue:
+    requests:
+      cpu: 1m
+      memory: 27Mi
+    limits:
+      cpu: 50m
+      memory: 100Mi
+  scheduler:
+    requests:
+      cpu: 5m
+      memory: 20Mi
+    limits:
+      cpu: 40m
+      memory: 80Mi
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  hosts:
+  - host: api.wbstack.com
+    paths:
+    - /()(.*)
+  - host: www.wbstack.com
+    paths:
+    - /api(/|$)(.*)
+  tls:
+  - hosts:
+    - wbstack.com
+    secretName: wbstack-com-tls-prod
+app:
+  name: WbStack
+  env: production
+  # TODO should be secret?
+  key: {{ .Values.services.app.key }}
+  debug: false
+  url: https://api.wbstack.com
+  timezone: UTC
+  cacheDriver: redis
+  queueConnection: redis
+  # TODO should be in a k8s secret?
+  jwtSecret: {{ .Values.services.app.jwtSecret }}
+  queryServiceHost: queryservice.default.svc.cluster.local:9999
+  redis:
+    # TODO is it possible to take advantage of slaves here?
+    host: {{ .Values.services.redis.writeHost }}
+    # TODO should be private somewhere?
+    password: {{ .Values.services.redis.password }}
+    port: {{ .Values.services.redis.port }}
+    db: {{ .Values.services.redis.databases.apiDb }}
+    cachedb: {{ .Values.services.redis.databases.apiCacheDb }}
+    prefix: wbstack_api
+  db:
+    connection: mysql
+    readHost: sql-mariadb-slave.default.svc.cluster.local
+    writeHost: sql-mariadb.default.svc.cluster.local
+    port: 3306
+    name: apidb
+    user: apiuser
+    passwordSecretName: sql-apiuser
+    passwordSecretKey: password
+  mail:
+    driver: mailgun
+    mailgundomain: {{ .Values.external.mailgun.domain }}
+    mailgunsecret: {{ .Values.external.mailgun.secret }}
+    fromaddress: noreply@mail.wbstack.com
+    fromname: WB Stack
+  recaptcha:
+    sitekey: {{ .Values.external.recaptcha3.sitekey }}
+    secret: {{ .Values.external.recaptcha3.secret }}
+    badgehide: true
+  gce:
+    projectId: wbstack
+    serviceAccountSecret: gke-wbstack-api
+  gcsPublicStatic:
+    gcsBucket: wbstack-static
+  stackdriver:
+    enabled: false
+    loggingEnabled: true
+    tracingEnabled: false
+    errorReportingEnabled: true

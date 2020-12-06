@@ -1,0 +1,143 @@
+master:
+  resources:
+    requests:
+      cpu: 40m
+      memory: 700Mi
+    limits:
+      cpu: 750m
+      memory: 1000Mi
+  persistence:
+    size: 60Gi
+  config: |-
+    [mysqld]
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mariadb
+    plugin_dir=/opt/bitnami/mariadb/plugin
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    tmpdir=/opt/bitnami/mariadb/tmp
+    max_allowed_packet=16M
+    bind-address=0.0.0.0
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+    log-error=/opt/bitnami/mariadb/logs/mysqld.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+
+    # WBStack Custom
+    # 16MB, default is 8MB, bitnami was 128
+    key_buffer_size=16777216
+    # 67MB, default & bitnami was 134MB (134217728)
+    innodb_buffer_pool_size=67108864
+    # 8MB, default & bitnami was 16MB (16777216)
+    tmp_table_size=8388608
+    # 80, default & bitnami was 151
+    max_connections=80
+    # 7 days, default & bitnami is 0 (keep forever.)
+    expire_logs_days=7
+    # 100MB, default & bitnami was 1GB (1073741824)
+    max_binlog_size=107374182
+
+    [mysql]
+    # https://forums.mysql.com/read.php?103,189835,192421#msg-192421
+    default-character-set=UTF8
+
+    [client]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    plugin_dir=/opt/bitnami/mariadb/plugin
+
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: "release"
+                operator: In
+                values:
+                  - sql
+          topologyKey: "kubernetes.io/hostname"
+
+slave:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 660Mi
+    limits:
+      cpu: 750m
+      memory: 900Mi
+  readinessProbe:
+    enabled: true
+    type: seconds_behind
+    typeSecondsBehind: 60
+  persistence:
+    size: 60Gi
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: "release"
+                operator: In
+                values:
+                  - sql
+          topologyKey: "kubernetes.io/hostname"
+
+  config: |-
+    [mysqld]
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mariadb
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    tmpdir=/opt/bitnami/mariadb/tmp
+    max_allowed_packet=16M
+    bind-address=0.0.0.0
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+    log-error=/opt/bitnami/mariadb/logs/mysqld.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+
+    # WBStack Custom
+    # 16MB, default is 8MB, bitnami was 128
+    key_buffer_size=16777216
+    # 67MB, default & bitnami was 134MB (134217728)
+    innodb_buffer_pool_size=67108864
+    # 8MB, default & bitnami was 16MB (16777216)
+    tmp_table_size=8388608
+    # 80, default & bitnami was 151
+    max_connections=80
+    # 7 days, default & bitnami is 0 (keep forever.)
+    expire_logs_days=7
+    # 100MB, default & bitnami was 1GB (1073741824)
+    max_binlog_size=107374182
+
+    [mysql]
+    # https://forums.mysql.com/read.php?103,189835,192421#msg-192421
+    default-character-set=UTF8
+
+    [client]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+
+global:
+  storageClass: faster
+metrics:
+  enabled: false
+db:
+  forcePassword: true
+rootUser:
+  password: {{ .Values.services.sql.rootPassword | quote }}
+  forcePassword: true
+replication:
+  password: {{ .Values.services.sql.replicationPassword | quote }}
+  forcePassword: true
