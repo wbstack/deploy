@@ -19,9 +19,7 @@ queue:
     db:
       readHost: someHost
       writeHost: someWriteHost
-      # database: someDbName
       username: someUser
-#      password: somePassword
       passwordSecretName: someSecretName
       passwordSecretKey: password
 
@@ -48,12 +46,11 @@ app:
     prefix: wbstack_api
   db:
     connection: mysql
-    # TODO this should be configed from somewhere?
     host: mysql-host
     port: 3306
     name: apidb
     user: apiuser
-    passwordSecretName: sql-apiuser
+    passwordSecretName: someSecretName
     passwordSecretKey: password
   mail:
     driver: mailgun
