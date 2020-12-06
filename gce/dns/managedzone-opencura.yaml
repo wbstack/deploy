@@ -1,0 +1,9 @@
+resources:
+# https://cloud.google.com/dns/docs/reference/v1/managedZones
+- name: managedzone-opencura
+  type: dns.v1.managedZone
+  properties:
+    name: opencura-zone
+    description: "Zone for opencura.com"
+    dnsName: opencura.com.
+    visibility: public

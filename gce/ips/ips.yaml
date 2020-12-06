@@ -1,0 +1,13 @@
+imports:
+  - path: samples2/community/cloud-foundation/templates/ip_reservation/ip_reservation.py
+    name: ip_reservation.py
+
+resources:
+  - name: ips
+    type: ip_reservation.py
+    properties:
+      ipAddresses:
+        - name: main-web-static-ip-us-east1
+          ipType: REGIONAL
+          region: us-east1
+          description: 'Main IP Address in us east1'

@@ -1,0 +1,24 @@
+imports:
+  - path: samples2/community/cloud-foundation/templates/iam_member/iam_member.py
+    name: iam_member.py
+
+resources:
+# https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts
+- name: serviceaccount-wbstack-api
+  type: iam.v1.serviceAccount
+  properties:
+    accountId: wbstack-api
+    displayName: serviceAccount-wbstack-api
+- name: iam-member-wbstack-api
+  type: iam_member.py
+  properties:
+    roles:
+      - role: roles/storage.objectAdmin
+        members:
+          - serviceAccount:wbstack-api@wbstack.iam.gserviceaccount.com
+      - role: roles/logging.logWriter
+        members:
+          - serviceAccount:wbstack-api@wbstack.iam.gserviceaccount.com
+      - role: roles/errorreporting.writer
+        members:
+          - serviceAccount:wbstack-api@wbstack.iam.gserviceaccount.com

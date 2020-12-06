@@ -1,0 +1,3 @@
+[submodule "gce/serviceaccounts/samples2"]
+	path = gce/serviceaccounts/samples2
+	url = https://github.com/GoogleCloudPlatform/deploymentmanager-samples.git

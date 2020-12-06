@@ -1,0 +1,9 @@
+resources:
+# https://cloud.google.com/dns/docs/reference/v1/managedZones
+- name: managedzone-wbstack
+  type: dns.v1.managedZone
+  properties:
+    name: wbstack-zone
+    description: "Zone for wbstack.com"
+    dnsName: wbstack.com.
+    visibility: public

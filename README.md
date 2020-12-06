@@ -4,4 +4,5 @@ All WBStack deployment code.
 
 Structure:
 
-- [tf (Terraform)](./tf) - Infrastructure as code on Google Cloud
+- [gce (Google Cloud)](.gce) - Various bash cli snippets for setting up infrastructure.
+- [tf (Terraform)](./tf) - Infrastructure as code on Google Cloud (CURRENTLY UNUSED).
