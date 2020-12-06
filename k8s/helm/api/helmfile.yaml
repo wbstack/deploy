@@ -7,13 +7,13 @@ releases:
   chart: wbstack-charts-api/api
   set:
   - name: app.passport.public
-    file: ./../../../../private/private/apps/api/oauth-public.key
+    file: ./../../../../private/apps/api/oauth-public.key
   - name: app.passport.private
-    file: ./../../../../private/private/apps/api/oauth-private.key
+    file: ./../../../../private/apps/api/oauth-private.key
   values:
   - "values.yaml.gotmpl"
 
 environments:
   default:
     values:
-      - ./../../../../private/private/helm/default.yaml
+      - ./../../../../private/helm/default.yaml
