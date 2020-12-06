@@ -1,7 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: estafette
-  labels:
-    name: estafette
-    app.kubernetes.io/managed-by: ManualGit
