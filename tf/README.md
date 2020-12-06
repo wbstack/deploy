@@ -1,6 +1,6 @@
 # terraform
 
-This is pereperatory work for moving to terraform..
+This is preparatory work for moving to terraform..
 
 Not currently used..
 
