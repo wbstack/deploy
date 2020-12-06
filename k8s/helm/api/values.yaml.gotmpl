@@ -99,10 +99,10 @@ app:
     readHost: sql-mariadb-slave.default.svc.cluster.local
     writeHost: sql-mariadb.default.svc.cluster.local
     port: 3306
-    name: apidb
-    user: apiuser
-    passwordSecretName: sql-apiuser
-    passwordSecretKey: password
+    name: {{ .Values.services.sql.api.db }}
+    user: {{ .Values.services.sql.api.user }}
+    passwordSecretName: {{ .Values.services.sql.api.passwordSecretName }}
+    passwordSecretKey: {{ .Values.services.sql.api.passwordSecretKey }}
   mail:
     driver: mailgun
     mailgundomain: {{ .Values.external.mailgun.domain }}
