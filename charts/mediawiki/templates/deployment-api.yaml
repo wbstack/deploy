@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mediawiki.fullname" . }}-app-api
+  labels:
+{{ include "mediawiki.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount.webapi }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mediawiki.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: app-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mediawiki.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: app-api
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: mediawiki
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag.webapi }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+{{ include "mediawiki.probes" . | indent 10 }}
+          resources:
+            {{- toYaml .Values.resources.webapi | nindent 12 }}
+          env:
+{{ include "mediawiki.env" . | indent 10 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

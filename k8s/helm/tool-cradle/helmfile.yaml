@@ -1,10 +1,6 @@
-repositories:
-  - name: wbstack-charts-cradle
-    url: git+https://github.com/wbstack/charts/@tool-cradle?ref=main
-
 releases:
 - name: tool-cradle
   namespace: default
-  chart: wbstack-charts-cradle/tool-cradle
+  chart: ./../../../charts/tool-cradle
   values:
   - "values.yaml"

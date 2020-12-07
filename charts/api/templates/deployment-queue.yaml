@@ -1,0 +1,204 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "api.fullname" . }}-queue
+  labels:
+{{ include "api.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount.queue }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "api.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: queue
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "api.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: queue
+    spec:
+      serviceAccountName: {{ include "api.fullname" . }}-ingresscreator
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: api-queue
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag.queue }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+#TODO add me...
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+          resources:
+            {{- toYaml .Values.resources.queue | nindent 12 }}
+          env:
+          - name: CONTAINER_ROLE
+            value: queue
+          - name: APP_NAME
+            value: {{ .Values.app.name | quote }}
+          - name: APP_ENV
+            value: {{ .Values.app.env | quote }}
+            # TODO from secret? optionaly random generation?
+          - name: APP_KEY
+            value: {{ .Values.app.key | quote }}
+          - name: APP_DEBUG
+            value: {{ .Values.app.debug | quote }}
+          - name: APP_URL
+            value: {{ .Values.app.url | quote }}
+          - name: APP_TIMEZONE
+            value: {{ .Values.app.timezone | quote }}
+
+          - name: QUERY_SERVICE_HOST
+            value: {{ .Values.app.queryServiceHost | quote }}
+          - name: PLATFORM_MW_BACKEND_HOST
+            value: {{ .Values.platform.backendMwHost | quote }}
+
+          - name: REDIS_HOST
+            value: {{ .Values.app.redis.host | quote }}
+          - name: REDIS_PASSWORD
+            value: {{ .Values.app.redis.password | quote }}
+          - name: REDIS_PORT
+            value: {{ .Values.app.redis.port | quote }}
+          - name: REDIS_DB
+            value: {{ .Values.app.redis.db | quote }}
+          - name: REDIS_CACHE_DB
+            value: {{ .Values.app.redis.cachedb | quote }}
+          - name: REDIS_PREFIX
+            value: {{ .Values.app.redis.prefix | quote }}
+
+          - name: MAIL_DRIVER
+            value: {{ .Values.app.mail.driver | quote }}
+          - name: MAILGUN_DOMAIN
+            value: {{ .Values.app.mail.mailgundomain | quote }}
+          - name: MAILGUN_SECRET
+            value: {{ .Values.app.mail.mailgunsecret | quote }}
+          - name: MAIL_FROM_ADDRESS
+            value: {{ .Values.app.mail.fromaddress | quote }}
+          - name: MAIL_FROM_NAME
+            value: {{ .Values.app.mail.fromname | quote }}
+
+          - name: INVISIBLE_RECAPTCHA_SITEKEY
+            value: {{ .Values.app.recaptcha.sitekey | quote }}
+          - name: INVISIBLE_RECAPTCHA_SECRETKEY
+            value: {{ .Values.app.recaptcha.secret | quote }}
+          - name: INVISIBLE_RECAPTCHA_BADGEHIDE
+            value: {{ .Values.app.recaptcha.badgehide | quote }}
+
+          - name: GOOGLE_CLOUD_PROJECT_ID
+            value: {{ .Values.app.gce.projectId | quote }}
+          - name: GOOGLE_CLOUD_STORAGE_BUCKET
+            value: {{ .Values.app.gcsPublicStatic.gcsBucket | quote }}
+          - name: GOOGLE_CLOUD_STORAGE_KEY_FILE
+            value: /var/run/secret/cloud.google.com/key.json
+
+          - name: LOG_CHANNEL
+            value: stderr
+          - name: STACKDRIVER_ENABLED
+            value: {{ .Values.app.stackdriver.enabled | quote }}
+          - name: STACKDRIVER_PROJECT_ID
+            value: {{ .Values.app.gce.projectId | quote }}
+          - name: STACKDRIVER_LOGGING_ENABLED
+            value: {{ .Values.app.stackdriver.loggingEnabled | quote }}
+          - name: STACKDRIVER_TRACING_ENABLED
+            value: {{ .Values.app.stackdriver.tracingEnabled | quote }}
+          - name: STACKDRIVER_ERROR_REPORTING_ENABLED
+            value: {{ .Values.app.stackdriver.errorReportingEnabled | quote }}
+          - name: STACKDRIVER_KEY_FILE_PATH
+            value: /var/run/secret/cloud.google.com/key.json
+          - name: STACKDRIVER_ERROR_REPORTING_BATCH_ENABLED
+            value: "false"
+          - name: STACKDRIVER_LOGGING_BATCH_ENABLED
+            value: "false"
+
+          - name: CACHE_DRIVER
+            value: {{ .Values.app.cacheDriver | quote }}
+          - name: QUEUE_CONNECTION
+            value: {{ .Values.app.queueConnection | quote }}
+            # TODO from secret? optionaly random generation?
+          - name: JWT_SECRET
+            value: {{ .Values.app.jwtSecret | quote }}
+          - name: DB_CONNECTION
+            value: {{ .Values.app.db.connection | quote }}
+            # TODO from service discovery or something?
+          - name: DB_HOST_READ
+            value: {{ .Values.app.db.readHost | quote }}
+          - name: DB_HOST_WRITE
+            value: {{ .Values.app.db.writeHost | quote }}
+          - name: DB_PORT
+            value: {{ .Values.app.db.port | quote }}
+          - name: DB_DATABASE
+            value: {{ .Values.app.db.name | quote }}
+          - name: DB_USERNAME
+            value: {{ .Values.app.db.user | quote }}
+          - name: DB_PASSWORD
+            {{- if .Values.app.db.password }}
+            value: {{ .Values.app.db.password | quote }}
+            {{- end }}
+            {{- if .Values.app.db.passwordSecretName }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.app.db.passwordSecretName | quote }}
+                key: {{ .Values.app.db.passwordSecretKey | quote }}
+            {{- end }}
+
+          - name: MW_DB_HOST_READ
+            value: {{ .Values.queue.mw.db.readHost | quote }}
+          - name: MW_DB_HOST_WRITE
+            value: {{ .Values.queue.mw.db.writeHost | quote }}
+          # - name: MW_DB_DATABASE
+          #   value: {{ .Values.queue.mw.db.database | quote }}
+          - name: MW_DB_USERNAME
+            value: {{ .Values.queue.mw.db.username | quote }}
+          - name: MW_DB_PASSWORD
+            value: {{ .Values.queue.mw.db.password | quote }}
+          - name: MW_DB_PASSWORD
+            {{- if .Values.queue.mw.db.password }}
+            value: {{ .Values.queue.mw.db.password | quote }}
+            {{- end }}
+            {{- if .Values.queue.mw.db.passwordSecretName }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.queue.mw.db.passwordSecretName | quote }}
+                key: {{ .Values.queue.mw.db.passwordSecretKey | quote }}
+            {{- end }}
+          - name: PASSPORT_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "api.fullname" . }}-app-passport-keys
+                key: oauth-public.key
+          - name: PASSPORT_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "api.fullname" . }}-app-passport-keys
+                key: oauth-private.key
+          volumeMounts:
+            - name: "service-account-wbstack-api"
+              mountPath: "/var/run/secret/cloud.google.com"
+      volumes:
+        - name: "service-account-wbstack-api"
+          secret:
+            secretName: {{ .Values.app.gce.serviceAccountSecret | quote }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

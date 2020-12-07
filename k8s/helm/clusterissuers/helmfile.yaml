@@ -1,11 +1,7 @@
-repositories:
-  - name: wbstack-charts-clusterissuers
-    url: git+https://github.com/wbstack/charts/@wbstack-clusterissuers?ref=main
-
 releases:
 - name: clusterissuers
   namespace: cert-manager
-  chart: wbstack-charts-clusterissuers/wbstack-clusterissuers
+  chart: ./../../../charts/wbstack-clusterissuers
   values:
   - "values.yaml.gotmpl"
 

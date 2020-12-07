@@ -1,11 +1,7 @@
-repositories:
-  - name: wbstack-charts-quickstatements
-    url: git+https://github.com/wbstack/charts/@tool-quickstatements?ref=main
-
 releases:
 - name: tool-quickstatements
   namespace: default
-  chart: wbstack-charts-quickstatements/tool-quickstatements
+  chart: ./../../../charts/tool-quickstatements
   values:
     - "values.yaml.gotmpl"
 

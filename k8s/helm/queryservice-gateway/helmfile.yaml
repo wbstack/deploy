@@ -1,10 +1,6 @@
-repositories:
-  - name: wbstack-charts-queryservice-gateway
-    url: git+https://github.com/wbstack/charts/@queryservice-gateway?ref=main
-
 releases:
 - name: queryservice-gateway
   namespace: default
-  chart: wbstack-charts-queryservice-gateway/queryservice-gateway
+  chart: ./../../../charts/queryservice-gateway
   values:
   - "values.yaml"

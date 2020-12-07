@@ -1,10 +1,6 @@
-repositories:
-  - name: wbstack-charts-ocingress
-    url: git+https://github.com/wbstack/charts/@wbstack-opencura-ingress?ref=main
-
 releases:
 - name: platform-apps-ingress
   namespace: default
-  chart: wbstack-charts-ocingress/wbstack-opencura-ingress
+  chart: ./../../../charts/wbstack-opencura-ingress
   values:
     - "values.yaml"

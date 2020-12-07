@@ -1,0 +1,49 @@
+replicaCount:
+  backend: 1
+  web: 1
+  webapi: 1
+  alpha: 0
+
+image:
+  repository: gcr.io/wbstack/mediawiki
+  tag:
+    web: someTag
+    webapi: someTag
+    backend: someTag
+    alpha: someTag
+  pullPolicy: IfNotPresent
+
+mw:
+  db:
+    master: someHostName
+    replica: someHostName
+  redis:
+    readServer: someRedisOtherServer
+    writeServer: someRedisServer
+    password: abc123
+  mailgun:
+    apikey: 1234567
+    domain: somedomain.name
+  recaptcha:
+    sitekey: foo
+    secretkey: foo
+  platform:
+    apiBackendHost: someHost
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: NodePort
+  port: 80
+
+resources:
+  web: {}
+  webapi: {}
+  alpha: {}
+  backend: {}
+
+nodeSelector: {}
+
+tolerations: []

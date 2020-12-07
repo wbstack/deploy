@@ -1,0 +1,95 @@
+image:
+  repository: gcr.io/wbstack/api
+  tag:
+    preinstall: someTag
+    backend: someTag
+    web: someTag
+    queue: someTag
+    scheduler: someTag
+  pullPolicy: Always
+
+replicaCount:
+  web: 1
+  backend: 1
+  scheduler: 1
+  queue: 1
+
+queue:
+  mw:
+    db:
+      readHost: someHost
+      writeHost: someWriteHost
+      username: someUser
+      passwordSecretName: someSecretName
+      passwordSecretKey: password
+
+app:
+  name: WbStack
+  env: production
+  key: someKey
+  debug: false
+  url: https://api.wbstack.com
+  timezone: UTC
+  cacheDriver: redis
+  queueConnection: redis
+  jwtSecret: SomeSecret
+  queryServiceHost: someHost:9999
+  passport:
+    public: contentOfPublicKey
+    private: contentOfPrivateKey
+  redis:
+    host: someHost
+    password: somePass
+    port: 6379
+    db: 2
+    cachedb: 3
+    prefix: wbstack_api
+  db:
+    connection: mysql
+    host: mysql-host
+    port: 3306
+    name: apidb
+    user: apiuser
+    passwordSecretName: someSecretName
+    passwordSecretKey: password
+  mail:
+    driver: mailgun
+    mailgundomain: sandbox111.mailgun.org
+    mailgunsecret: abc123
+    fromaddress: noreply@sandbox111.mailgun.org
+    fromname: WB Stack
+  recaptcha:
+    sitekey: abc123
+    secret: abc123
+    badgehide: true
+  gce:
+    serviceAccountSecret: someSecret
+  gcsPublicStatic:
+    gceProject: someProject
+    gcsBucket: someBucket
+  stackdriver:
+    enabled: false
+    loggingEnabled: false
+    tracingEnabled: false
+    errorReportingEnabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: false
+
+resources:
+  backend: {}
+  web: {}
+  queue: {}
+  scheduler: {}
+
+nodeSelector: {}
+
+tolerations: []

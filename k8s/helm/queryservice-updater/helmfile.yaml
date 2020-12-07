@@ -1,10 +1,6 @@
-repositories:
-  - name: wbstack-charts-queryservice-updater
-    url: git+https://github.com/wbstack/charts/@queryservice-updater?ref=main
-
 releases:
 - name: queryservice-updater
   namespace: default
-  chart: wbstack-charts-queryservice-updater/queryservice-updater
+  chart: ./../../../charts/queryservice-updater
   values:
   - "values.yaml"
