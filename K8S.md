@@ -97,8 +97,8 @@ Some cert-manager things were already deployed in the Definitions stages of this
 
 cert-manager also has 2 sets of helmfiles to deploy.
 
-- [cert-manager](./k8s/cert-manager) - Created the cert-manager controller (manages certificates).
-- [clusterissuers](./k8s/clusterissuers) - Creates the cert-manager cluster issuers that connect to Let's Encrypt.
+- [cert-manager](./k8s/helm/cert-manager) - Created the cert-manager controller (manages certificates).
+- [clusterissuers](./k8s/helm/clusterissuers) - Creates the cert-manager cluster issuers that connect to Let's Encrypt.
 
 **TBA values!**
 
@@ -106,8 +106,8 @@ cert-manager also has 2 sets of helmfiles to deploy.
 
 We could use an external sql service, but in the interest of depending on as few services as possible, and keeping costs down, this is currently done in k8s.
 
-- [sql](./k8s/sql) - Replication aware sql setup running MariaDB
-- [adminer](./k8s/adminer) - Web interface access for sql (OPTIONAL)
+- [sql](./k8s/helm/sql) - Replication aware sql setup running MariaDB
+- [adminer](./k8s/helm/adminer) - Web interface access for sql (OPTIONAL)
 
 Some private values will be needed:
 
@@ -131,7 +131,7 @@ You can find some more docs for interacting with sql in the [docs/services direc
 
 We could use an external redis service, but in the interest of depending on as few services as possible, and keeping costs down, this is currently done in k8s.
 
-- [redis](./k8s/redis) - Replicated redis setup for use by services
+- [redis](./k8s/helm/redis) - Replicated redis setup for use by services
 
 Some private values will be needed:
 
@@ -148,7 +148,7 @@ You can find some more docs for interacting with redis in the [docs/services dir
 Web facing frontend for the platform app services:
 
 - [platform-nginx](./k8s/helm/platform-nginx) - Nginx ingress doing path based routing
-- [platform-apps-ingress](./k8s/helm/platform-apps-ingress) - Expose the platform-nginx with an ingress 
+- [platform-apps-ingress](./k8s/helm/platform-apps-ingress) - Expose the platform-nginx with an ingress
 
 And the platform to manage all the things:
 
