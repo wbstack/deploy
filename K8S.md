@@ -20,7 +20,7 @@ And you need some helm plugins:
 - **git** - We need this to fetch charts from git (our charts repo is a git repo currently)
 
 ```sh
-helm plugin install https://github.com/databus23/helm-diff.git
+helm plugin install https://github.com/databus23/helm-diff
 helm plugin install https://github.com/aslafy-z/helm-git
 ```
 
@@ -36,7 +36,7 @@ But for now they must be deployed using `kubectl`.
 
 - 00-namespace-cert-manager.yaml - Create a namespace for cert-manager to operate in.
 - 00-secret-creators.yaml - Roles for a secret creation service used in some later services (for creating random services password etc.)
-- 00-storageclass-faster.yaml - Creates a SSD based StorageClass we can use (Probably not needed now as created by default)
+- 00-storageclass-faster.yaml - Creates a SSD based StorageClass called 'faster' or use by services that need fast disks.
 
 You can apply these individually, or all together.
 
@@ -100,25 +100,48 @@ cert-manager also has 2 sets of helmfiles to deploy.
 - [cert-manager](./k8s/cert-manager) - Created the cert-manager controller (manages certificates).
 - [clusterissuers](./k8s/clusterissuers) - Creates the cert-manager cluster issuers that connect to Let's Encrypt.
 
+**TBA values!**
+
 ### sql
 
 We could use an external sql service, but in the interest of depending on as few services as possible, and keeping costs down, this is currently done in k8s.
 
 - [sql](./k8s/sql) - Replication aware sql setup running MariaDB
-- [adminer](./k8s/adminer) - Web interface access for sql(OPTIONAL)
+- [adminer](./k8s/adminer) - Web interface access for sql (OPTIONAL)
+
+Some private values will be needed:
+
+```yml
+services:
+  sql:
+    rootPassword: 'somePassword'
+    replicationPassword: 'someOtherPassword'
+```
 
 Once the sql service is running we can create some secrets for use by other services.
 
 - [tasks/init-sql-secrets.yaml] - Creates the SQL secrets / password required for various SQL services (and api user and a mediawiki db manager user)
-- [tasks/init-sql.yaml] - Creates the SQL users, from the secrets just created, for various SQL services
+- [tasks/init-sql.yaml] - Creates the SQL users, from the secrets just created, for various SQL services (wait for the first jobs to finish first!!!)
 
 Both of these steps should probably be performed as part of the helm files deploying the services rather than here.
+
+You can find some more docs for interacting with sql in the [docs/services directory](./docs/services).
 
 ### redis
 
 We could use an external redis service, but in the interest of depending on as few services as possible, and keeping costs down, this is currently done in k8s.
 
 - [redis](./k8s/redis) - Replicated redis setup for use by services
+
+Some private values will be needed:
+
+```yml
+services:
+  redis:
+    password: somePassword
+```
+
+You can find some more docs for interacting with redis in the [docs/services directory](./docs/services).
 
 ## Application services
 
