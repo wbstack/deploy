@@ -148,7 +148,13 @@ You can find some more docs for interacting with redis in the [docs/services dir
 Web facing frontend for the platform app services:
 
 - [platform-nginx](./k8s/helm/platform-nginx) - Nginx ingress doing path based routing
+  - Possible modifications:
+    - nginx.conf `set_real_ip_from` needs to be set to the range of possible Pod IP addresses
+    - nginx.conf `resolver` probably doesn't need adjusting if your using a default looking cluster
+  - NOTE: nginx will initially fail as it can't resolve upstream hosts (as we didn't make the services yet)
+    - Maybe this should all be done in a different order? OR it shouldn't need the services to exist? and fallback?
 - [platform-apps-ingress](./k8s/helm/platform-apps-ingress) - Expose the platform-nginx with an ingress
+  - For other usecases this probably needs its own helm charts currently D: (TODO make the chart generic...)
 
 And the platform to manage all the things:
 
