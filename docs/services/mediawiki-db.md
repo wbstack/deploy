@@ -1,5 +1,7 @@
 ## DB Changes via platform-api
 
+**WARNING this documentation is likely outdated -- Addshore Dec 2020**
+
 ### Upgrading all sql dbs to a new version of the schema?
 
 See the UpdateWikiDbJob and ScheduleUpdateWikiDbJobs in the api app.
