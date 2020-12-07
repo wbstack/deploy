@@ -64,3 +64,17 @@ Then setup the application layer from the helm directory:
 ```
 ./init3-appservices.sh
 ```
+
+### Draining a node
+
+First do something like:
+```
+kubectl drain gke-cluster-1-e2-small-pool-7830ca18-cx1v
+```
+
+It will likely complain about some local data and daemonsets, so you'll probably have to add:
+```
+--delete-local-data --ignore-daemonsets
+```
+
+WARNING: of course, check which pods are using those things first and if tis is actually safe...
