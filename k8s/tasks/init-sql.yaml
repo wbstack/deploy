@@ -1,8 +1,8 @@
 # This Job can be used to create the initial sql users and tables needed by the
 # various initial services.
-# Really this should only be run once, but also it shouldnt break anything if run
+# Really this should only be run once, but also it shouldn't break anything if run
 # multiple times..
-# init-sql-secrets.yaml shouldbe run before this Job, otherwise the secrets will
+# init-sql-secrets.yaml should be run before this Job, otherwise the secrets will
 # not exist..
 apiVersion: batch/v1
 kind: Job
