@@ -2,6 +2,8 @@
 
 All WBStack deployment code.
 
+There are docs of varying quality in the [docs](./docs) folder.
+
 Base infrastructure:
 
 - [gce (Google Cloud)](./gce) - Various bash cli snippets for setting up infrastructure (Migrating from this to terraform).
