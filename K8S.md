@@ -147,21 +147,22 @@ You can find some more docs for interacting with redis in the [docs/services dir
 
 Web facing frontend for the platform app services:
 
-- [platform-nginx](./k8s/platform-nginx) - Nginx ingress doing path based routing
-- [platform-apps-ingress](./k8s/platform-apps-ingress) - Expose the platform-nginx with an ingress 
+- [platform-nginx](./k8s/helm/platform-nginx) - Nginx ingress doing path based routing
+- [platform-apps-ingress](./k8s/helm/platform-apps-ingress) - Expose the platform-nginx with an ingress 
 
-And the app services themsevles:
+And the platform to manage all the things:
 
-- [mediawiki135](./k8s/mediawiki135)
-- [mediawiki134](./k8s/mediawiki134) (Currently still needed for a OAuth issue with some tools)
-- [queryservice](./k8s/queryservice)
-- [queryservice-gateway](./k8s/queryservice-gateway)
-- [queryservice-ui](./k8s/queryservice-ui)
-- [tool-quickstatements](./k8s/tool-quickstatements)
-- [tool-widar](./k8s/tool-widar)
-- [tool-cradle](./k8s/tool-cradle)
+- [api](./k8s/helm/api) (API users already created in the sql step)
+- [ui](./k8s/helm/ui)
 
-And the platform to manage it all:
+And the app services themselves:
 
-- [api](./k8s/api) (API users already created in the sql step)
-- [ui](./k8s/ui)
+- [mediawiki135](./k8s/helm/mediawiki135)
+- [mediawiki134](./k8s/helm/mediawiki134) (Currently still needed for a OAuth issue with some tools)
+- [queryservice](./k8s/helm/queryservice)
+- [queryservice-gateway](./k8s/helm/queryservice-gateway)
+- [queryservice-updater](./k8s/helm/queryservice-updater)
+- [queryservice-ui](./k8s/helm/queryservice-ui)
+- [tool-quickstatements](./k8s/helm/tool-quickstatements)
+- [tool-widar](./k8s/helm/tool-widar)
+- [tool-cradle](./k8s/helm/tool-cradle)
