@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: someRepoAndImageName
-  tag: latest
+  repository: ghcr.io/wbstack/queryservice-ui
+  tag: "1.1"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
