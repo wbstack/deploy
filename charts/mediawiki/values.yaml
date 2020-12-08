@@ -5,12 +5,12 @@ replicaCount:
   alpha: 0
 
 image:
-  repository: gcr.io/wbstack/mediawiki
+  repository: ghcr.io/wbstack/mediawiki
   tag:
-    web: someTag
-    webapi: someTag
-    backend: someTag
-    alpha: someTag
+    web: 1.35-7.3-20201208-0
+    webapi: 1.35-7.3-20201208-0
+    backend: 1.35-7.3-20201208-0
+    alpha: 1.35-7.3-20201208-0
   pullPolicy: IfNotPresent
 
 mw:
