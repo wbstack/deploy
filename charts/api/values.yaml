@@ -1,11 +1,11 @@
 image:
   repository: ghcr.io/wbstack/api
   tag:
-    preinstall: 6x-1.3
-    backend: 6x-1.3
-    web: 6x-1.3
-    queue: 6x-1.3
-    scheduler: 6x-1.3
+    preinstall: 6x-1.4
+    backend: 6x-1.4
+    web: 6x-1.4
+    queue: 6x-1.4
+    scheduler: 6x-1.4
   pullPolicy: Always
 
 replicaCount:
