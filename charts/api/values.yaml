@@ -34,6 +34,10 @@ app:
   queueConnection: redis
   jwtSecret: SomeSecret
   queryServiceHost: someHost:9999
+  routes:
+    load:
+      web: 1
+      sandbox: 0
   passport:
     public: contentOfPublicKey
     private: contentOfPrivateKey
