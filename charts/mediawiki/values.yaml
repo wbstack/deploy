@@ -7,10 +7,10 @@ replicaCount:
 image:
   repository: ghcr.io/wbstack/mediawiki
   tag:
-    web: 1.35-7.3-20201211-0
-    webapi: 1.35-7.3-20201211-0
-    backend: 1.35-7.3-20201211-0
-    alpha: 1.35-7.3-20201211-0
+    web: 1.35-7.4-20210130-0
+    webapi: 1.35-7.4-20210130-0
+    backend: 1.35-7.4-20210130-0
+    alpha: 1.35-7.4-20210130-0
   pullPolicy: IfNotPresent
 
 mw:
