@@ -7,7 +7,7 @@ php:
   sessionSavePath: "tcp://{{ .Values.services.redis.writeHost }}:{{ .Values.services.redis.port }}?database={{ .Values.services.redis.databases.toolWidar }}&auth={{ .Values.services.redis.password }}&prefix=session_widar_"
 image:
   repository: ghcr.io/wbstack/widar
-  tag: "1.1"
+  tag: "1.2.2"
   pullPolicy: Always
 resources:
   requests:
