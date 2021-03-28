@@ -1,11 +1,11 @@
 image:
   repository: ghcr.io/wbstack/api
   tag:
-    preinstall: 6x-1.6.2
-    backend: 6x-1.6.2
-    web: 6x-1.6.2
-    queue: 6x-1.6.2
-    scheduler: 6x-1.6.2
+    preinstall: 7x-1.0
+    backend: 7x-1.0
+    web: 7x-1.0
+    queue: 7x-1.0
+    scheduler: 7x-1.0
   pullPolicy: Always
 
 replicaCount:
@@ -57,7 +57,7 @@ app:
     passwordSecretName: someSecretName
     passwordSecretKey: password
   mail:
-    driver: mailgun
+    mailer: mailgun
     mailgundomain: sandbox111.mailgun.org
     mailgunsecret: abc123
     fromaddress: noreply@sandbox111.mailgun.org

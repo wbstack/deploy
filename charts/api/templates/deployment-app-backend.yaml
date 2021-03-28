@@ -81,8 +81,8 @@ spec:
           - name: REDIS_PREFIX
             value: {{ .Values.app.redis.prefix | quote }}
 
-          - name: MAIL_DRIVER
-            value: {{ .Values.app.mail.driver | quote }}
+          - name: MAIL_MAILER
+            value: {{ .Values.app.mail.mailer | quote }}
           - name: MAILGUN_DOMAIN
             value: {{ .Values.app.mail.mailgundomain | quote }}
           - name: MAILGUN_SECRET
