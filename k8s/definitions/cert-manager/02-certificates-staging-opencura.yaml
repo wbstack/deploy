@@ -10,9 +10,6 @@ spec:
   dnsNames:
   - '*.opencura.com'
   - '*.wiki.opencura.com'
-  - '*.wikibase.opencura.com'
-  - '*.test.opencura.com'
-  - '*.foo.opencura.com'
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-staging
