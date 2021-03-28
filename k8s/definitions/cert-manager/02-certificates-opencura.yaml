@@ -16,7 +16,7 @@ spec:
   - '*.wiki.opencura.com'
   - '*.wikibase.opencura.com'
   - '*.test.opencura.com'
-  acme:
+  acme: # is this irrelevant? This needs to be applied with --validate=false currently...
     config:
     - dns01:
         provider: clouddns
