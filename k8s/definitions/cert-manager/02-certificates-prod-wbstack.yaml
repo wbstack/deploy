@@ -3,7 +3,6 @@ kind: Certificate
 metadata:
   name: wbstack-com-tls
   namespace: default
-  resourceVersion: "220378891"
   labels:
     app.kubernetes.io/managed-by: ManualGit
 spec:
