@@ -1,1 +1,3 @@
-Some commands make temp backups, and this is where it dumps them
+# Backups
+
+Some commands make temporary backups, and this is where they get dumped.
