@@ -5,6 +5,6 @@ metadata:
   labels:
 {{ include "api.labels" . | indent 4 }}
 rules:
-- apiGroups: ["extensions"]
+- apiGroups: ["extensions", "networking.k8s.io"]
   resources: ["ingresses"]
   verbs: ["get", "create", "list"]
