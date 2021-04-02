@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/wbstack/ui
-  tag: "2.6"
+  tag: "2.7"
   pullPolicy: Always
 resources:
   requests:
