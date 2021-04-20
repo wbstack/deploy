@@ -20,12 +20,12 @@ configmap: |
 master:
   resources:
     requests:
-      cpu: 10m
-      memory: 62Mi
+      cpu: 30m
+      memory: 65Mi
     # Internal limit is 90MB, this for now just stops runaway redis..
     limits:
-      cpu: 50m
-      memory: 90Mi
+      cpu: 60m
+      memory: 95Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
@@ -65,13 +65,12 @@ master:
 slave:
   resources:
     requests:
-      cpu: 10m
-      # 60Mi based on usage seen on 21 December 2019 (after memory limits in place)
-      memory: 60Mi
+      cpu: 30m
+      memory: 65Mi
     # Internal limit is 90MB, this for now just stops runaway redis..
     limits:
-      cpu: 50m
-      memory: 90Mi
+      cpu: 60m
+      memory: 95Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##

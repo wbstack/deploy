@@ -18,18 +18,18 @@ resources:
   # The backed is a platform critical element, so make sure it is allowed to be a bit silly...
   backend:
     requests:
-      cpu: 250m
-      memory: 350Mi
+      cpu: 300m
+      memory: 300Mi
     limits:
-      memory: 700Mi
       cpu: 500m
+      memory: 600Mi
   web:
     requests:
       cpu: 50m
       memory: 100Mi
     limits:
-      memory: 256Mi
       cpu: 250m
+      memory: 256Mi
   queue:
     requests:
       cpu: 1m
