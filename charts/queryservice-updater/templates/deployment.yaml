@@ -28,7 +28,7 @@ spec:
             - name: HEAP_SIZE
               value: 30m
             - name: WBSTACK_LOOP_LIMIT
-              value: "1000"
+              value: {{ .Values.app.loopLimit| quote }}
             - name: EXTRA_JVM_OPTS
               value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAM=60m -XX:+UseSerialGC -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
             - name: GC_LOGS

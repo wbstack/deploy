@@ -5,11 +5,12 @@ image:
   pullPolicy: Always
 app:
   sleepTime: 5
+  loopLimit: 100
   getBatchesEndpoint: http://api-app-backend.default.svc.cluster.local/backend/qs/getBatches
 resources:
   requests:
-    cpu: 30m
-    memory: 65Mi
+    cpu: 40m
+    memory: 80Mi
   limits:
-    cpu: 60m
-    memory: 100Mi
+    cpu: 70m
+    memory: 120Mi
