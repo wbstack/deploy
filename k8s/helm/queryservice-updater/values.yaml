@@ -9,8 +9,8 @@ app:
   getBatchesEndpoint: http://api-app-backend.default.svc.cluster.local/backend/qs/getBatches
 resources:
   requests:
-    cpu: 40m
-    memory: 80Mi
+    cpu: 80m
+    memory: 100Mi
   limits:
-    cpu: 70m
-    memory: 120Mi
+    cpu: 100m
+    memory: 128Mi
