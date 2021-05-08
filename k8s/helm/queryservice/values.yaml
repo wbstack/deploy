@@ -15,5 +15,5 @@ persistence:
   enabled: true
   accessMode: ReadWriteOnce
   storageClass: faster
-  size: 10Gi
+  size: 12Gi
   annotations: {}

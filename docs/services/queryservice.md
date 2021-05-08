@@ -1,4 +1,6 @@
-scalling up the disk space
+Scalling up the disk space
+
+TODO next time try just updating the helm value and doing `helmfile apply` as GCE might handle resizing nicely now.
 
 To list all existing pvcs:
 ```
@@ -11,11 +13,14 @@ kubectl patch pvc queryservice -p '{"spec":{"resources":{"requests": {"storage":
 ```
 The PVC will then list FileSystemResizePending as a condition.
 
-Once the pod is restarted / recreated the PV will have the increased size.
+After a short period of time on GCE the PVC will have resized
+This is different to legacy behavior that required a new pod.
+You can check this with:
+
 ```
-kubectl get pod | grep queryservice
-kubectl get pod queryservice-7b9577b659-md22b
-kubectl delete pod queryservice-7b9577b659-md22b
+kubectl get pvc queryservice
 ```
+
+You should see the new disk allocation.
 
 UPDATE the helmfile values and deploy..
