@@ -1,7 +1,7 @@
 replicaCount: 1
 
 platform:
-  mediawikiBackendHost: mediawiki-134-app-backend.default.svc.cluster.local
+  mediawikiBackendHost: mediawiki-135-app-backend.default.svc.cluster.local
 php:
   sessionSaveHandler: redis
   sessionSavePath: "tcp://{{ .Values.services.redis.writeHost }}:{{ .Values.services.redis.port }}?database={{ .Values.services.redis.databases.toolQuickstatements }}&auth={{ .Values.services.redis.password }}&prefix=session_quickstatements_"
