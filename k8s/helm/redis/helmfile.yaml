@@ -6,7 +6,7 @@ releases:
 - name: redis
   namespace: default
   chart: bitnami/redis
-  version: 10.9.0
+  version: 11.3.4
   values:
   - "values.yaml.gotmpl"
 
