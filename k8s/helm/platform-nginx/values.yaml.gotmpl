@@ -12,16 +12,10 @@ resources:
      memory: 8Mi
 
 livenessProbe:
-  httpGet:
-    path: /kube-probe
-    port: http
   initialDelaySeconds: 30
   timeoutSeconds: 5
   failureThreshold: 6
 readinessProbe:
-  httpGet:
-    path: /kube-probe
-    port: http
   initialDelaySeconds: 5
   timeoutSeconds: 3
   periodSeconds: 5

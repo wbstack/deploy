@@ -6,6 +6,6 @@ releases:
 - name: platform-nginx
   namespace: default
   chart: bitnami/nginx
-  version: 5.2.4
+  version: 5.7.2
   values:
   - "values.yaml.gotmpl"
