@@ -1,0 +1,6 @@
+releases:
+- name: elasticsearch
+  namespace: default
+  chart: ./../../../charts/elasticsearch/dependencies/helm-charts/elasticsearch/
+  values:
+  - "values.yaml"
