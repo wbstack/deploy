@@ -1,0 +1,26 @@
+image: "wikibase/elasticsearch"
+imageTag: "6.5.4-wmde.1"
+imagePullPolicy: Always
+
+service:
+  type: NodePort
+  nodePort: 30000
+
+replicas: 3
+minimumMasterNodes: 2
+
+esJavaOpts: "-Xms512m -Xmx512m"
+
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "2Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 10Gi
