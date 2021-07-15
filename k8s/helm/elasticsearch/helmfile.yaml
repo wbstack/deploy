@@ -5,6 +5,6 @@ releases:
 - name: elasticsearch
   namespace: default
   chart: elastic/elasticsearch
-  version: 7.13.2
+  version: 6.8.17
   values:
   - "values.yaml"
