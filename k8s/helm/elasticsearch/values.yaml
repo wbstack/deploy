@@ -1,0 +1,26 @@
+image: "wikibase/elasticsearch"
+imageTag: "6.5.4-wmde.1"
+imagePullPolicy: Always
+
+replicas: 3
+minimumMasterNodes: 2
+
+# For now we don't have enough nodes to have this set to hard
+antiAffinity: soft
+
+esJavaOpts: "-Xms512m -Xmx512m"
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "900Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1.2Gi"
+
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: faster
+  resources:
+    requests:
+      storage: 10Gi
