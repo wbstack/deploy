@@ -1,6 +1,10 @@
+repositories:
+ - name: elastic
+   url: https://helm.elastic.co
 releases:
 - name: elasticsearch
   namespace: default
-  chart: ./../../../charts/elasticsearch/dependencies/helm-charts/elasticsearch/
+  chart: elastic/elasticsearch
+  version: 7.13.2
   values:
   - "values.yaml"

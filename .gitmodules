@@ -1,6 +1,3 @@
 [submodule "gce/serviceaccounts/samples2"]
 	path = gce/serviceaccounts/samples2
 	url = https://github.com/GoogleCloudPlatform/deploymentmanager-samples.git
-[submodule "charts/elasticsearch/dependencies/helm-charts"]
-	path = charts/elasticsearch/dependencies/helm-charts
-	url = https://github.com/elastic/helm-charts/
