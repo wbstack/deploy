@@ -58,6 +58,10 @@ Common deployment environment variables
   value: {{ .Values.mw.redis.writeServer }}
 - name: MW_REDIS_PASSWORD
   value: {{ .Values.mw.redis.password }}
+- name: MW_ELASTICSEARCH_HOST
+  value: {{ .Values.mw.elasticsearch.host }}
+- name: MW_ELASTICSEARCH_PORT
+  value: {{ .Values.mw.elasticsearch.port | quote }}
 - name: MW_MAILGUN_API_KEY
   value: {{ .Values.mw.mailgun.apikey }}
 - name: MW_MAILGUN_DOMAIN

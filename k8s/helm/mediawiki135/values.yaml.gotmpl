@@ -20,6 +20,9 @@ mw:
     readServer: {{ .Values.services.redis.readHost }}
     writeServer: {{ .Values.services.redis.writeHost }}
     password: {{ .Values.services.redis.password }}
+  elasticsearch:
+    host: {{ .Values.services.elasticsearch.host }}
+    port: {{ .Values.services.elasticsearch.port }}
   mailgun:
     apikey: {{ .Values.external.mailgun.secret }}
     domain: {{ .Values.external.mailgun.domain }}

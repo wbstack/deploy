@@ -21,6 +21,9 @@ mw:
     readServer: someRedisOtherServer
     writeServer: someRedisServer
     password: abc123
+  elasticsearch:
+    host: someOtherElasticsearchServer
+    port: 9200
   mailgun:
     apikey: 1234567
     domain: somedomain.name
