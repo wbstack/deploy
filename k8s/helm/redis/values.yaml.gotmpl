@@ -1,7 +1,7 @@
 redisPort: 6379
 cluster:
   enabled: true
-  slaveCount: 1
+  slaveCount: 2
 sentinel:
   enabled: false
 usePassword: true
@@ -12,20 +12,21 @@ configmap: |
   # Disable RDB persistence, AOF persistence already enabled.
   save ""
   # Control memory usage
-  maxmemory 50mb
+  maxmemory 90mb
   maxmemory-policy volatile-lru
   # Auto AOF file rewriting
   auto-aof-rewrite-percentage 100
-  auto-aof-rewrite-min-size 60mb
+  auto-aof-rewrite-min-size 100mb
+
 master:
   resources:
     requests:
       cpu: 30m
-      memory: 65Mi
+      memory: 100Mi
     # Internal limit is 90MB, this for now just stops runaway redis..
     limits:
       cpu: 60m
-      memory: 95Mi
+      memory: 120Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
@@ -66,11 +67,11 @@ slave:
   resources:
     requests:
       cpu: 30m
-      memory: 65Mi
+      memory: 100Mi
     # Internal limit is 90MB, this for now just stops runaway redis..
     limits:
       cpu: 60m
-      memory: 95Mi
+      memory: 120Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
