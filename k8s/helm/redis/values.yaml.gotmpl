@@ -1,7 +1,7 @@
 redisPort: 6379
 cluster:
   enabled: true
-  slaveCount: 2
+  slaveCount: 1
 sentinel:
   enabled: false
 usePassword: true
@@ -22,11 +22,11 @@ master:
   resources:
     requests:
       cpu: 30m
-      memory: 100Mi
+      memory: 120Mi
     # Internal limit is 90MB, this for now just stops runaway redis..
     limits:
       cpu: 60m
-      memory: 120Mi
+      memory: 140Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
@@ -67,11 +67,11 @@ slave:
   resources:
     requests:
       cpu: 30m
-      memory: 100Mi
+      memory: 120Mi
     # Internal limit is 90MB, this for now just stops runaway redis..
     limits:
       cpu: 60m
-      memory: 120Mi
+      memory: 140Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
