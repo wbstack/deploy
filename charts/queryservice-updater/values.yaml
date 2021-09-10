@@ -1,13 +1,12 @@
 replicaCount: 1
 
 app:
-  heapSize: 30m
   sleepTime: 12
   getBatchesEndpoint: some.service/backend/qs/getBatches
 
 image:
   repository: ghcr.io/wbstack/queryservice-updater
-  tag: 0.3.6_2.1
+  tag: 0.3.84_3.4
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -21,16 +20,6 @@ resources:
   limits:
     cpu: "100m"
     memory: "200Mi"
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 nodeSelector: {}
 
