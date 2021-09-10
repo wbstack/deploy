@@ -12,21 +12,21 @@ configmap: |
   # Disable RDB persistence, AOF persistence already enabled.
   save ""
   # Control memory usage
-  maxmemory 90mb
+  maxmemory 75mb
   maxmemory-policy volatile-lru
   # Auto AOF file rewriting
   auto-aof-rewrite-percentage 100
-  auto-aof-rewrite-min-size 100mb
+  auto-aof-rewrite-min-size 85mb
 
 master:
   resources:
     requests:
-      cpu: 30m
-      memory: 120Mi
-    # Internal limit is 90MB, this for now just stops runaway redis..
+      cpu: 100m
+      memory: 125Mi
+    # Internal limit is 75MB, this for now just stops runaway redis..
     limits:
-      cpu: 60m
-      memory: 140Mi
+      cpu: 200m
+      memory: 150Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
@@ -38,14 +38,14 @@ master:
     ## The subdirectory of the volume to mount to, useful in dev environments
     ## and one PV for multiple services.
     subPath: ""
-    ## redis data Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    # storageClass: "-"
+    # redis data Persistent Volume Storage Class
+    # If defined, storageClassName: <storageClass>
+    # If set to "-", storageClassName: "", which disables dynamic provisioning
+    # If undefined (the default) or set to null, no storageClassName spec is
+    #   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    #   GKE, AWS & OpenStack)
+    #
+    storageClass: "faster"
     accessModes:
       - ReadWriteOnce
     size: 1Gi
@@ -66,12 +66,12 @@ master:
 slave:
   resources:
     requests:
-      cpu: 30m
-      memory: 120Mi
-    # Internal limit is 90MB, this for now just stops runaway redis..
+      cpu: 40m
+      memory: 125Mi
+    # Internal limit is 75MB, this for now just stops runaway redis..
     limits:
-      cpu: 60m
-      memory: 140Mi
+      cpu: 80m
+      memory: 150Mi
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
@@ -83,14 +83,14 @@ slave:
     ## The subdirectory of the volume to mount to, useful in dev environments
     ## and one PV for multiple services.
     subPath: ""
-    ## redis data Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    # storageClass: "-"
+    # redis data Persistent Volume Storage Class
+    # If defined, storageClassName: <storageClass>
+    # If set to "-", storageClassName: "", which disables dynamic provisioning
+    # If undefined (the default) or set to null, no storageClassName spec is
+    #   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    #   GKE, AWS & OpenStack)
+    #
+    storageClass: "faster"
     accessModes:
       - ReadWriteOnce
     size: 1Gi
