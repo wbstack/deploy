@@ -26,7 +26,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: HEAP_SIZE
-              value: 30m
+              value: {{ .Values.app.heapSize }}
             - name: WBSTACK_LOOP_LIMIT
               value: {{ .Values.app.loopLimit| quote }}
             - name: EXTRA_JVM_OPTS

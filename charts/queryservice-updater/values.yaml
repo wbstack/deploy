@@ -1,6 +1,7 @@
 replicaCount: 1
 
 app:
+  heapSize: 30m
   sleepTime: 12
   getBatchesEndpoint: some.service/backend/qs/getBatches
 

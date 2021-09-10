@@ -54,7 +54,6 @@ spec:
           env:
           - name: WDQS_HOST
             value: {{ include "wdqs.fullname" . }}
-            #TODO allow passing value in values
           - name: HEAP_SIZE
             value: {{ .Values.app.heapSize }}
             # TODO would use -XX:+UseSerialGC but conflicts with -XX:+UseG1GC in runBlazegraph.sh
