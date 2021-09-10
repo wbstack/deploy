@@ -1,12 +1,12 @@
 replicaCount: 1
 
 app:
-  sleepTime: 12
+  sleepTime: 10
   getBatchesEndpoint: some.service/backend/qs/getBatches
 
 image:
   repository: ghcr.io/wbstack/queryservice-updater
-  tag: 0.3.84_3.4
+  tag: 0.3.84_3.5
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -15,11 +15,11 @@ fullnameOverride: ""
 
 resources:
   requests:
-    cpu: "10m"
-    memory: "100Mi"
-  limits:
     cpu: "100m"
-    memory: "200Mi"
+    memory: "150Mi"
+  limits:
+    cpu: "150m"
+    memory: "150Mi"
 
 nodeSelector: {}
 

@@ -3,13 +3,13 @@ image:
   repository: ghcr.io/wbstack/queryservice-updater
   pullPolicy: Always
 app:
-  sleepTime: 3
+  sleepTime: 5
   loopLimit: 10000
   getBatchesEndpoint: http://api-app-backend.default.svc.cluster.local/backend/qs/getBatches
 resources:
   requests:
     cpu: 80m
-    memory: 120Mi
+    memory: 125Mi
   limits:
     cpu: 100m
-    memory: 120Mi
+    memory: 125Mi
