@@ -6,7 +6,7 @@ app:
 
 image:
   repository: ghcr.io/wbstack/queryservice-updater
-  tag: 0.3.84_3.4
+  tag: 0.3.84_3.6
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
