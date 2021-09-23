@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+echo "Elastic Search"
+PODNAME=$(kubectl get pods -l release=elasticsearch -l statefulset.kubernetes.io/pod-name=elasticsearch-master-0 -o jsonpath="{.items[0].metadata.name}")
+kubectl exec -it $PODNAME -- du -sh //usr/share/elasticsearch/data
+
 echo "Query Service"
 PODNAME=$(kubectl get pods -l app.kubernetes.io/name=queryservice -o jsonpath="{.items[0].metadata.name}")
 kubectl exec -it $PODNAME -- du -sh //wdqs/data
