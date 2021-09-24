@@ -4,9 +4,9 @@ platform:
   apiBackendHost: api-backend
 
 image:
-  repository: imageorg/imagename
-  tag: latest
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/wbstack/queryservice-gateway
+  tag: "2.1"
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
