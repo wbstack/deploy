@@ -1,7 +1,3 @@
-image:
-  repository: ghcr.io/wbstack/queryservice-ui
-  tag: "1.2"
-  pullPolicy: Always
 resources:
   requests:
     cpu: 1m
