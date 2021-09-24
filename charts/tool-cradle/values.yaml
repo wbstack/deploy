@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: someImageName
-  tag: someTag
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/wbstack/cradle
+  tag: "2.0.1"
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""

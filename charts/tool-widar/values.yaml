@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: someImageName
-  tag: someTag
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/wbstack/widar
+  tag: "1.2.2"
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
