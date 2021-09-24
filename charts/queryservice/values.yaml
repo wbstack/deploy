@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: gcr.io/wbstack/wdqs
-  tag: 0.1
+  repository: ghcr.io/wbstack/queryservice
+  tag: "0.3.6_0.6"
   pullPolicy: Always
 
 app:
@@ -36,11 +36,11 @@ ingress:
 
 resources:
   requests:
-    cpu: "10m"
-    memory: "2048Mi"
+    cpu: 0.2
+    memory: "3500Mi"
   limits:
-    cpu: "500m"
-    memory: "3072Mi"
+    cpu: 0.5
+    memory: "4072Mi"
 
 nodeSelector: {}
 
@@ -61,5 +61,5 @@ persistence:
   # storageClass: "-"
   accessMode: ReadWriteOnce
   storageClass: faster
-  size: 5Gi
+  size: 10Gi
   annotations: {}

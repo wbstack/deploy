@@ -1,9 +1,3 @@
-image:
-  repository: ghcr.io/wbstack/queryservice
-  tag: "0.3.6_0.6"
-  pullPolicy: Always
-app:
-  heapSize: 2g
 resources:
   requests:
     cpu: 0.2
