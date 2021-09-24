@@ -1,0 +1,17 @@
+# PUBLIC values file for wbstack
+services:
+  elasticsearch:
+    host: elasticsearch-master.default.svc.cluster.local
+    port: 9200
+  redis:
+    readHost: redis-headless.default.svc.cluster.local
+    writeHost: redis-master.default.svc.cluster.local
+    # Port is currently hardcoded in mediawiki
+    port: 6379
+    databases:
+      # Mediawiki db is hardcoded in mediawiki currently
+      mediawiki: 0
+      apiDb: 2
+      apiCacheDb: 3
+      toolQuickstatements: 10
+      toolWidar: 11
