@@ -69,7 +69,8 @@ app:
     secret: abc123
     badgehide: true
   gce:
-    serviceAccountSecret: someSecret
+    # existingSecret: foo
+    # serviceAccountSecret: someSecret
   gcsPublicStatic:
     gceProject: someProject
     gcsBucket: someBucket

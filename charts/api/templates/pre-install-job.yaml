@@ -139,6 +139,7 @@ spec:
                 key: {{ .Values.app.db.passwordSecretKey | quote }}
             {{- end }}
 
+      {{- if .Values.app.gce.serviceAccountSecret }}
           volumeMounts:
             - name: "service-account-wbstack-api"
               mountPath: "/var/run/secret/cloud.google.com"
@@ -146,3 +147,4 @@ spec:
         - name: "service-account-wbstack-api"
           secret:
             secretName: {{ .Values.app.gce.serviceAccountSecret | quote }}
+      {{- end }}

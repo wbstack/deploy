@@ -153,13 +153,22 @@ spec:
           - name: PASSPORT_PUBLIC_KEY
             valueFrom:
               secretKeyRef:
+                {{- if .Values.app.gce.existingSecret }}
+                name: {{ .Values.app.gce.existingSecret }}
+                {{- else }}
                 name: {{ template "api.fullname" . }}-app-passport-keys
+                {{- end }}
                 key: oauth-public.key
           - name: PASSPORT_PRIVATE_KEY
             valueFrom:
               secretKeyRef:
+                {{- if .Values.app.gce.existingSecret }}
+                name: {{ .Values.app.gce.existingSecret }}
+                {{- else }}
                 name: {{ template "api.fullname" . }}-app-passport-keys
+                {{- end }}
                 key: oauth-private.key
+      {{- if .Values.app.gce.serviceAccountSecret }}
           volumeMounts:
             - name: "service-account-wbstack-api"
               mountPath: "/var/run/secret/cloud.google.com"
@@ -167,6 +176,7 @@ spec:
         - name: "service-account-wbstack-api"
           secret:
             secretName: {{ .Values.app.gce.serviceAccountSecret | quote }}
+      {{- end }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
