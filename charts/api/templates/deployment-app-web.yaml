@@ -30,6 +30,7 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          {{ if .Values.useProbes }}
           livenessProbe:
             httpGet:
               path: /healthz
@@ -38,6 +39,7 @@ spec:
             httpGet:
               path: /healthz
               port: http
+          {{ end }}
           resources:
             {{- toYaml .Values.resources.web | nindent 12 }}
           env:
