@@ -45,11 +45,11 @@ spec:
             {{- if .Values.php.sessionSaveRedisAuth }}
               value: {{ .Values.php.sessionSaveRedisAuth | quote }}
             {{- end }}
-            {{- if .Values.app.redis.sessionSaveRedisAuthSecretName }}
+            {{- if .Values.php.sessionSaveRedisAuthSecretName }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.app.redis.sessionSaveRedisAuthSecretName | quote }}
-                  key: {{ .Values.app.redis.sessionSaveRedisAuthSecretKey | quote }}
+                  name: {{ .Values.php.sessionSaveRedisAuthSecretName | quote }}
+                  key: {{ .Values.php.sessionSaveRedisAuthSecretKey | quote }}
             {{- end }}
             - name: PHP_SESSION_SAVE_HANDLER_REDIS_PREFIX
               value: {{ .Values.php.sessionSaveRedisPrefix | quote }}
