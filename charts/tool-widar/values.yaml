@@ -20,6 +20,8 @@ php:
 #   sessionSaveRedisPort:
 #   sessionSaveRedisDatabase:
 #   sessionSaveRedisAuth:
+#   sessionSaveRedisAuthSecretName:
+#   sessionSaveRedisAuthSecretKey:
 #   sessionSaveRedisPrefix:
 
 service:

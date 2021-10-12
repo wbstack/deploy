@@ -42,7 +42,15 @@ spec:
             - name: PHP_SESSION_SAVE_HANDLER_REDIS_DATABASE
               value: {{ .Values.php.sessionSaveRedisDatabase | quote }}
             - name: PHP_SESSION_SAVE_HANDLER_REDIS_AUTH
+            {{- if .Values.php.sessionSaveRedisAuth }}
               value: {{ .Values.php.sessionSaveRedisAuth | quote }}
+            {{- end }}
+            {{- if .Values.app.redis.sessionSaveRedisAuthSecretName }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.redis.sessionSaveRedisAuthSecretName | quote }}
+                  key: {{ .Values.app.redis.sessionSaveRedisAuthSecretKey | quote }}
+            {{- end }}
             - name: PHP_SESSION_SAVE_HANDLER_REDIS_PREFIX
               value: {{ .Values.php.sessionSaveRedisPrefix | quote }}
             {{- end }}
