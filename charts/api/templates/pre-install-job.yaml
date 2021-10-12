@@ -58,7 +58,15 @@ spec:
           - name: REDIS_PORT
             value: {{ .Values.app.redis.port | quote }}
           - name: REDIS_PASSWORD
+            {{- if .Values.app.redis.password }}
             value: {{ .Values.app.redis.password | quote }}
+            {{- end }}
+            {{- if .Values.app.redis.passwordSecretName }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.app.redis.passwordSecretName | quote }}
+                key: {{ .Values.app.redis.passwordSecretKey | quote }}
+            {{- end }}
           - name: REDIS_DB
             value: {{ .Values.app.redis.db | quote }}
           - name: REDIS_CACHE_DB
