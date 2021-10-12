@@ -9,6 +9,19 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+platform:
+  mediawikiBackendHost: someHost
+
+php:
+  sessionSaveHandler: redis
+  sessionSavePath: tcp://somePath
+#   # OR if sessionSaveHandler is redis
+#   sessionSaveRedisHost:
+#   sessionSaveRedisPort:
+#   sessionSaveRedisDatabase:
+#   sessionSaveRedisAuth:
+#   sessionSaveRedisPrefix:
+
 service:
   type: NodePort
   port: 80

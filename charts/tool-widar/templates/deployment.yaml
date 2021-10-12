@@ -29,8 +29,23 @@ spec:
               value: {{ .Values.platform.mediawikiBackendHost | quote }}
             - name: PHP_SESSION_SAVE_HANDLER
               value: {{ .Values.php.sessionSaveHandler | quote }}
+            {{- if .Values.php.sessionSavePath }}
             - name: PHP_SESSION_SAVE_PATH
               value: {{ .Values.php.sessionSavePath | quote }}
+            {{- else if eq .Values.php.sessionSaveHandler "redis" }}
+            - name: PHP_SESSION_SAVE_PATH
+              value: "tcp://{{ .Values.php.sessionSaveRedisHost }}:{{ .Values.php.sessionSaveRedisPort }}?database={{ .Values.php.sessionSaveRedisDatabase }}&auth={{ .Values.php.sessionSaveRedisAuth }}&prefix={{ .Values.php.sessionSaveRedisPrefix }}"
+            - name: PHP_SESSION_SAVE_HANDLER_REDIS_HOST
+              value: {{ .Values.php.sessionSaveRedisHost | quote }}
+            - name: PHP_SESSION_SAVE_HANDLER_REDIS_PORT
+              value: {{ .Values.php.sessionSaveRedisPort | quote }}
+            - name: PHP_SESSION_SAVE_HANDLER_REDIS_DATABASE
+              value: {{ .Values.php.sessionSaveRedisDatabase | quote }}
+            - name: PHP_SESSION_SAVE_HANDLER_REDIS_AUTH
+              value: {{ .Values.php.sessionSaveRedisAuth | quote }}
+            - name: PHP_SESSION_SAVE_HANDLER_REDIS_PREFIX
+              value: {{ .Values.php.sessionSaveRedisPrefix | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 80
