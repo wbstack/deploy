@@ -1,7 +1,12 @@
+repositories:
+- name: wbstack
+  url: https://wbstack.github.io/charts
+
 releases:
 - name: mediawiki-135
   namespace: default
-  chart: ./../../../charts/mediawiki
+  chart: wbstack/mediawiki
+  version: 0.1.0
   values:
   - "values.yaml.gotmpl"
 

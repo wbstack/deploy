@@ -1,6 +1,11 @@
+repositories:
+- name: wbstack
+  url: https://wbstack.github.io/charts
+
 releases:
 - name: platform-apps-ingress
   namespace: default
-  chart: ./../../../charts/wbstack-opencura-ingress
+  chart: wbstack/wbstack-opencura-ingress
+  version: 0.1.0
   values:
     - "values.yaml"
