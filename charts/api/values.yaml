@@ -45,9 +45,9 @@ app:
     private: contentOfPrivateKey
   redis:
     host: someHost
-    #password: somePass
-    passwordSecretName: someSecretName
-    passwordSecretKey: password
+    password: somePass
+    #passwordSecretName: someSecretName
+    #passwordSecretKey: password
     port: 6379
     db: 2
     cachedb: 3
