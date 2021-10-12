@@ -57,13 +57,29 @@ Common deployment environment variables
 - name: MW_REDIS_SERVER_WRITE
   value: {{ .Values.mw.redis.writeServer }}
 - name: MW_REDIS_PASSWORD
-  value: {{ .Values.mw.redis.password }}
+{{- if .Values.mw.redis.password }}
+  value: {{ .Values.mw.redis.password | quote }}
+{{- end }}
+{{- if .Values.mw.redis.passwordSecretName }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.mw.redis.passwordSecretName | quote }}
+      key: {{ .Values.mw.redis.passwordSecretKey | quote }}
+{{- end }}
 - name: MW_ELASTICSEARCH_HOST
   value: {{ .Values.mw.elasticsearch.host }}
 - name: MW_ELASTICSEARCH_PORT
   value: {{ .Values.mw.elasticsearch.port | quote }}
 - name: MW_MAILGUN_API_KEY
-  value: {{ .Values.mw.mailgun.apikey }}
+{{- if .Values.mw.mailgun.apikey }}
+  value: {{ .Values.mw.mailgun.apikey | quote }}
+{{- end }}
+{{- if .Values.mw.mailgun.apikeySecretName }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.mw.mailgun.apikeySecretName | quote }}
+      key: {{ .Values.mw.mailgun.apikeySecretKey | quote }}
+{{- end }}
 - name: MW_MAILGUN_DOMAIN
   value: {{ .Values.mw.mailgun.domain }}
 - name: MW_EMAIL_DOMAIN
@@ -71,7 +87,15 @@ Common deployment environment variables
 - name: MW_RECAPTCHA_SITEKEY
   value: {{ .Values.mw.recaptcha.sitekey }}
 - name: MW_RECAPTCHA_SECRETKEY
-  value: {{ .Values.mw.recaptcha.secretkey }}
+{{- if .Values.mw.recaptcha.secretkey }}
+  value: {{ .Values.mw.recaptcha.secretkey | quote }}
+{{- end }}
+{{- if .Values.mw.recaptcha.secretkeySecretName }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.mw.recaptcha.secretkeySecretName | quote }}
+      key: {{ .Values.mw.recaptcha.secretkeySecretKey | quote }}
+{{- end }}
 - name: PLATFORM_API_BACKEND_HOST
   value: {{ .Values.mw.platform.apiBackendHost }}
 {{- end -}}
