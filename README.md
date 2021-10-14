@@ -12,4 +12,3 @@ Some older docs of varying quality live in the [docs](./docs) folder.
   - [cmd](./k8s/cmd) - Some convenience scripts for interacting with k8s resources once they are created.
   - [definitions](./k8s/definitions) - kubernetes files to be applied to the base cluster.
   - [helm](./k8s/helm) - helm deployments that need to be deployed.
-- [charts (Helm Charts)](./charts) - Custom helm charts that are used by WBStack.
