@@ -7,7 +7,7 @@ master:
       cpu: 750m
       memory: 1000Mi
   persistence:
-    size: 60Gi
+    size: 66Gi
   config: |-
     [mysqld]
     skip-name-resolve
@@ -76,7 +76,7 @@ slave:
     type: seconds_behind
     typeSecondsBehind: 60
   persistence:
-    size: 60Gi
+    size: 66Gi
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:

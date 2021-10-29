@@ -32,7 +32,7 @@ kubectl get pvc -l app=mariadb,component=slave,release=sql
 
 Patch individual claims:
 ```
-kubectl patch pvc data-sql-mariadb-slave-0 -p '{"spec":{"resources":{"requests": {"storage":"60Gi"}}}}'
+kubectl patch pvc data-sql-mariadb-slave-0 -p '{"spec":{"resources":{"requests": {"storage":"66Gi"}}}}'
 ```
 
 The PVC will then list FileSystemResizePending as a condition.
