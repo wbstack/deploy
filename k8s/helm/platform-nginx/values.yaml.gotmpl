@@ -1,15 +1,15 @@
 serverBlock: |-
 {{ readFile "nginx.conf" | indent 2 }}
 
-replicaCount: 2
+replicaCount: 3
 
 resources:
   limits:
-    cpu: 40m
-    memory: 20Mi
+    cpu: 50m
+    memory: 30Mi
   requests:
-     cpu: 5m
-     memory: 8Mi
+     cpu: 20m
+     memory: 20Mi
 
 livenessProbe:
   initialDelaySeconds: 30
