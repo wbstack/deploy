@@ -1,7 +1,7 @@
 replicaCount:
   backend: 1
   web: 2
-  webapi: 3
+  webapi: 2
   alpha: 0
 image:
   tag:
@@ -41,7 +41,7 @@ resources:
       memory: 750Mi
   webapi:
     requests:
-      cpu: 200m
+      cpu: 150m
       memory: 300Mi
     limits:
       cpu: 500m
