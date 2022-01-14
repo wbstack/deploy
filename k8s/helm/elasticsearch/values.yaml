@@ -12,7 +12,7 @@ esJavaOpts: "-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"
 
 resources:
   requests:
-    cpu: "400m"
+    cpu: "600m"
     memory: "900Mi"
   limits:
     cpu: "1000m"
