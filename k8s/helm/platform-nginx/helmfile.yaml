@@ -2,6 +2,12 @@ repositories:
 - name: bitnami
   url: https://charts.bitnami.com/bitnami
 
+environments:
+  default:
+    kubeContext: INVALID-ENVIRONMENT
+  wbstack:
+    kubeContext: gke_wbstack_us-east1-b_cluster-1
+
 releases:
 - name: platform-nginx
   namespace: default

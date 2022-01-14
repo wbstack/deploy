@@ -2,6 +2,15 @@ repositories:
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
 
+environments:
+  default:
+    kubeContext: INVALID-ENVIRONMENT
+  wbstack:
+    kubeContext: gke_wbstack_us-east1-b_cluster-1
+    values:
+      - ./../default.yaml
+      - ./../../../../private/helm/private.yaml
+
 releases:
 - name: redis
   namespace: default
@@ -9,9 +18,3 @@ releases:
   version: 13.0.1
   values:
   - "values.yaml.gotmpl"
-
-environments:
-  default:
-    values:
-      - ./../default.yaml
-      - ./../../../../private/helm/private.yaml

@@ -3,6 +3,16 @@ repositories:
 #    url: https://charts.bitnami.com/bitnami
   - name: wbstack-bitnami-mariadb
     url: git+https://github.com/wbstack/bitnami-charts/@bitnami/mariadb?ref=7.3.16-mariadb-ready-check-seconds
+
+environments:
+  default:
+    kubeContext: INVALID-ENVIRONMENT
+  wbstack:
+    kubeContext: gke_wbstack_us-east1-b_cluster-1
+    values:
+      - ./../default.yaml
+      - ./../../../../private/helm/private.yaml
+
 releases:
 - name: sql
   namespace: default
@@ -11,9 +21,3 @@ releases:
 #  version: 7.3.16
   values:
   - "values.yaml.gotmpl"
-
-environments:
-  default:
-    values:
-      - ./../default.yaml
-      - ./../../../../private/helm/private.yaml

@@ -2,6 +2,15 @@ repositories:
 - name: wbstack
   url: https://wbstack.github.io/charts
 
+environments:
+  default:
+    kubeContext: INVALID-ENVIRONMENT
+  wbstack:
+    kubeContext: gke_wbstack_us-east1-b_cluster-1
+    values:
+      - ./../default.yaml
+      - ./../../../../private/helm/private.yaml
+
 releases:
 - name: mediawiki-135
   namespace: default
@@ -9,9 +18,3 @@ releases:
   version: 0.1.0
   values:
   - "values.yaml.gotmpl"
-
-environments:
-  default:
-    values:
-      - ./../default.yaml
-      - ./../../../../private/helm/private.yaml
