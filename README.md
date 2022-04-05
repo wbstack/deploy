@@ -2,6 +2,8 @@
 
 All WBStack deployment code.
 
+You can read a blog post summary of this repo and how it has worked over the years https://addshore.com/2022/04/infrastructure-as-code-for-wbstack-deployments/
+
 Documentation is being built [here](https://wbstack.github.io/docs/tech/)
 
 Some older docs of varying quality live in the [docs](./docs) folder.
