@@ -1,6 +1,13 @@
+helmDefaults:
+  # Added as I am deploying from a boat with sloooww internet
+  timeout: 600
+
 repositories:
 - name: bitnami
-  url: https://charts.bitnami.com/bitnami
+  # url: https://charts.bitnami.com/bitnami
+  # URL we are actually using is shamlessly stolen from wikibase.cloud
+  # yamllint disable-line rule:line-length
+  url: https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami
 
 environments:
   default:
