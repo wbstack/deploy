@@ -2,9 +2,22 @@
 kind: dns#resourceRecordSet
 name: wbstack.com.
 rrdatas:
-- 34.73.9.97
+- 185.199.108.153
+- 185.199.109.153
+- 185.199.110.153
+- 185.199.111.153
 ttl: 300
 type: A
+---
+kind: dns#resourceRecordSet
+name: wbstack.com.
+rrdatas:
+- 2606:50c0:8000::153
+- 2606:50c0:8001::153
+- 2606:50c0:8002::153
+- 2606:50c0:8003::153
+ttl: 300
+type: AAAA
 ---
 kind: dns#resourceRecordSet
 name: wbstack.com.
@@ -25,11 +38,11 @@ ttl: 21600
 type: SOA
 ---
 kind: dns#resourceRecordSet
-name: '*.wbstack.com.'
+name: 'www.wbstack.com.'
 rrdatas:
-- 34.73.9.97
+- wbstack.github.io.
 ttl: 300
-type: A
+type: CNAME
 ---
 kind: dns#resourceRecordSet
 name: sites-1.dyna.wbstack.com.
