@@ -60,9 +60,9 @@ ttl: 300
 type: MX
 ---
 kind: dns#resourceRecordSet
-name: _github-pages-challenge-addshore.wbstack.com.
+name: _github-pages-challenge-wbstack.wbstack.com.
 rrdatas:
-- '"3746e9dc5246c29c1340b4395bc445"'
+- '"0c2570aab8efe70d687c3e47322d6b"'
 ttl: 300
 type: TXT
 ---
