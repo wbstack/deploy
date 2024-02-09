@@ -2,7 +2,7 @@
 
 All wbstack.com deployment code.
 
-There is a new deployment of this system at wikibase.cloud. The deployment repository for that installation will soon be opne sourced.
+There is a new deployment of this system at wikibase.cloud: https://github.com/wmde/wbaas-deploy
 
 You can read a blog post summary of this repo and how it has worked over the years https://addshore.com/2022/04/infrastructure-as-code-for-wbstack-deployments/
 
